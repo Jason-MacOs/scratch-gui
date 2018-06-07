@@ -31,7 +31,8 @@ import feedbackIcon from './icon--feedback.svg';
 import profileIcon from './icon--profile.png';
 import communityIcon from './icon--see-community.svg';
 import dropdownCaret from '../language-selector/dropdown-caret.svg';
-import scratchLogo from './scratch-logo.svg';
+//import scratchLogo from './scratch-logo.svg';
+import codepkuLogo from './codepku-logo.svg';
 
 import helpIcon from './icon--help.svg';
 
@@ -105,11 +106,13 @@ const MenuBar = props => (
                 <div className={classNames(styles.menuBarItem)}>
                     <img
                         alt="Scratch"
-                        className={styles.scratchLogo}
+                        className={styles.codepkuLogo}
                         draggable={false}
-                        src={scratchLogo}
+                        src={codepkuLogo}
                     />
                 </div>
+                <Divider className={classNames(styles.divider)} />
+                {/*
                 <div className={classNames(styles.menuBarItem, styles.hoverable)}>
                     <MenuBarItemTooltip
                         id="menubar-selector"
@@ -118,6 +121,7 @@ const MenuBar = props => (
                         <LanguageSelector />
                     </MenuBarItemTooltip>
                 </div>
+                */}
                 <div
                     className={classNames(styles.menuBarItem, styles.hoverable, {
                         [styles.active]: props.fileMenuOpen
@@ -135,6 +139,7 @@ const MenuBar = props => (
                         open={props.fileMenuOpen}
                         onRequestClose={props.onRequestCloseFile}
                     >
+                        {/*
                         <MenuItemTooltip id="new">
                             <MenuItem>
                                 <FormattedMessage
@@ -163,6 +168,7 @@ const MenuBar = props => (
                                     /></MenuItem>
                             </MenuItemTooltip>
                         </MenuSection>
+                        */}
                         <MenuSection>
                             <ProjectLoader>{(renderFileInput, loadProject, loadProps) => (
                                 <MenuItem
@@ -192,6 +198,7 @@ const MenuBar = props => (
                         </MenuSection>
                     </MenuBarMenu>
                 </div>
+                {/*
                 <div
                     className={classNames(styles.menuBarItem, styles.hoverable, {
                         [styles.active]: props.editMenuOpen
@@ -240,8 +247,9 @@ const MenuBar = props => (
                         </MenuSection>
                     </MenuBarMenu>
                 </div>
+                */}
             </div>
-            <Divider className={classNames(styles.divider)} />
+            {/*
             <div className={classNames(styles.menuBarItem)}>
                 <MenuBarItemTooltip id="title-field">
                     <input
@@ -277,7 +285,9 @@ const MenuBar = props => (
                     </Button>
                 </MenuBarItemTooltip>
             </div>
+            */}
         </div>
+        {/*
         <div className={classNames(styles.menuBarItem, styles.feedbackButtonWrapper)}>
             <a
                 className={styles.feedbackLink}
@@ -297,6 +307,7 @@ const MenuBar = props => (
                 </Button>
             </a>
         </div>
+        */}
         <div className={styles.accountInfoWrapper}>
             <div
                 aria-label="How-to Library"
@@ -308,6 +319,7 @@ const MenuBar = props => (
                     src={helpIcon}
                 />
             </div>
+            {/*
             <MenuBarItemTooltip id="mystuff">
                 <div
                     className={classNames(
@@ -338,7 +350,7 @@ const MenuBar = props => (
                         src={profileIcon}
                     />
                     <span>
-                        {'scratch-cat' /* @todo username */}
+                        {'scratch-cat'}
                     </span>
                     <img
                         className={styles.dropdownCaretIcon}
@@ -346,6 +358,7 @@ const MenuBar = props => (
                     />
                 </div>
             </MenuBarItemTooltip>
+            */}
         </div>
     </Box>
 );

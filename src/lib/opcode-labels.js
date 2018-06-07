@@ -2,33 +2,39 @@ const opcodeMap = {
     // Motion
     motion_direction: {
         category: 'motion',
-        label: 'direction'
+        label: '方向'
     },
     motion_xposition: {
         category: 'motion',
-        label: 'x position'
+        label: 'x坐标'
     },
     motion_yposition: {
         category: 'motion',
-        label: 'y position'
+        label: 'y坐标'
     },
 
     // Looks
     looks_size: {
         category: 'looks',
-        label: 'size'
+        label: '大小'
     },
     looks_costumenumbername: {
         category: 'looks',
-        labelFn: params => `costume ${params.NUMBER_NAME}`
+        //labelFn: params => `造型 ${params.NUMBER_NAME}`
+        labelFn: (params) => {
+            return '造型编号';
+        }
     },
     looks_backdropnumbername: {
         category: 'looks',
-        labelFn: params => `backdrop ${params.NUMBER_NAME}`
+        //labelFn: params => `背景 ${params.NUMBER_NAME}`
+        labelFn: (params) => {
+            return '背景编号';
+        }
     },
     looks_backdropname: {
         category: 'looks',
-        label: 'backdrop name'
+        label: '背景名称'
     },
 
     // Data
@@ -44,35 +50,50 @@ const opcodeMap = {
     // Sound
     sound_volume: {
         category: 'sound',
-        label: 'volume'
+        label: '音量'
     },
     sound_tempo: {
         category: 'sound',
-        label: 'tempo'
+        label: '节奏'
     },
 
     // Sensing
     sensing_answer: {
         category: 'sensing',
-        label: 'answer'
+        label: '回答'
     },
     sensing_loudness: {
         category: 'sensing',
-        label: 'loudness'
+        label: '响度'
+    },
+    sensing_username: {
+        category: 'sensing',
+        label: '用户名'
     },
     sensing_current: {
         category: 'sensing',
         labelFn: params => {
             let currentMenu = params.CURRENTMENU.toLowerCase();
+            return {
+                year: '年',
+                month: '月',
+                date: '日',
+                dayofweek: '星期',
+                hour: '时',
+                minute: '分',
+                second: '秒'
+            }[currentMenu];
+            /*
             if (currentMenu === 'dayofweek') {
                 currentMenu = 'day of week';
             }
             return currentMenu;
+            */
         }
     },
     sensing_timer: {
         category: 'sensing',
-        label: 'timer'
+        label: '计时器'
     }
 };
 

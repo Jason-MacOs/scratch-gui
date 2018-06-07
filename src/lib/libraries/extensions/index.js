@@ -9,31 +9,38 @@ import boostImage from './boost.png';
 
 export default [
     {
-        name: 'Music',
+        name: '音乐',
         extensionId: 'music',
         iconURL: musicImage,
-        description: 'Play instruments and drums.',
+        description: '使用小鼓和乐器演奏音乐.',
         featured: true
     },
     {
-        name: 'Pen',
+        name: '画笔',
         extensionId: 'pen',
         iconURL: penImage,
-        description: 'Draw with your sprites.',
+        description: '使用画笔作画.',
         featured: true
     },
     {
-        name: 'Video Motion',
+        name: '谷歌翻译',
+        extensionId: 'translate',
+        iconURL: translateImage,
+        description: '将文字翻译成多国语言.',
+        featured: true
+    },
+    {
+        name: '视频传感器',
         extensionId: 'videoSensing',
         iconURL: videoImage,
-        description: 'Detect motion with the camera.',
+        description: '使用摄像头捕获动作.',
         featured: true
     },
     {
-        name: 'Speech Recognition',
+        name: '语音识别',
         extensionId: 'speech',
         iconURL: speechImage,
-        description: 'Talk to your projects.',
+        description: '你可以和你做的项目对话.',
         featured: true,
         disabled: true
     },

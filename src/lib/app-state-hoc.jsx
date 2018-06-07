@@ -5,11 +5,15 @@ import {createStore, applyMiddleware, compose} from 'redux';
 import throttle from 'redux-throttle';
 
 import {intlShape} from 'react-intl';
-import {IntlProvider, updateIntl} from 'react-intl-redux';
-import {intlInitialState} from '../reducers/intl.js';
-import {initialState as modeInitialState, setPlayer, setFullScreen} from '../reducers/mode.js';
-import reducer from '../reducers/gui';
-import ErrorBoundary from '../containers/error-boundary.jsx';
+import {IntlProvider, updateIntl, intlReducer} from 'react-intl-redux';
+//import intlReducer from '../reducers/intl.js';
+
+import guiReducer, {guiInitialState, guiMiddleware, initFullScreen, initPlayer} from '../reducers/gui';
+
+import {setPlayer, setFullScreen} from '../reducers/mode.js';
+
+import {ScratchPaintReducer} from 'scratch-paint';
+import intlDefault from '../playground/intl.js';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const enhancer = composeEnhancers(
@@ -51,8 +55,8 @@ const AppStateHOC = function (WrappedComponent) {
             this.store = createStore(
                 reducer,
                 {
-                    intl: intl,
-                    mode: mode
+                    intl: intlDefault,
+                    scratchGui: initializedGui
                 },
                 enhancer);
         }
