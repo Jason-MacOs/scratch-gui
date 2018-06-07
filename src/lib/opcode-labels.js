@@ -70,6 +70,10 @@ const opcodeMap = {
         category: 'sensing',
         label: '用户名'
     },
+    sensing_username: {
+        category: 'sensing',
+        label: 'username'
+    },
     sensing_current: {
         category: 'sensing',
         labelFn: params => {

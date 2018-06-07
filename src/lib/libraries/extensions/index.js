@@ -6,6 +6,7 @@ import microbitImage from './microbit.png';
 import wedoImage from './wedo.png';
 import ev3Image from './ev3.png';
 import boostImage from './boost.png';
+import translateImage from './translate.png';
 
 export default [
     {
