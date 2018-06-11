@@ -31,7 +31,7 @@ export default [
         featured: true
     },
     {
-        name: '视频传感器',
+        name: '视频侦测',
         extensionId: 'videoSensing',
         iconURL: videoImage,
         description: '使用摄像头捕获动作.',

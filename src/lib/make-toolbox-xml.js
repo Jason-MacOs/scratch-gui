@@ -398,7 +398,7 @@ const control = function (isStage) {
 
 const sensing = function (isStage) {
     return `
-    <category name="传感器" id="sensing" colour="#4CBFE6" secondaryColour="#2E8EB8">
+    <category name="侦测" id="sensing" colour="#4CBFE6" secondaryColour="#2E8EB8">
         ${isStage ? '' : `
             <block type="sensing_touchingobject">
                 <value name="TOUCHINGOBJECTMENU">
