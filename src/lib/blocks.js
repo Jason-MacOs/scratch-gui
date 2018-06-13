@@ -11,7 +11,7 @@ export default function (vm) {
     const RAND_BACKDROP = '随机背景';
     const MYSELF = '自己';
 
-    const MOUSE_POINTER = '鼠标位置';
+    const MOUSE_POINTER = '鼠标指针';
     const RAND_POSITION = '随机位置';
     const STAGE = '舞台';
     const EDGE = '舞台边缘';
