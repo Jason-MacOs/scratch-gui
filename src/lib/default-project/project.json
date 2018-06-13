@@ -41,7 +41,7 @@
     },
     {
       "isStage": false,
-      "name": "角色",
+      "name": "玩仔",
       "variables": {},
       "lists": {},
       "broadcasts": {},
@@ -49,40 +49,58 @@
       "currentCostume": 0,
       "costumes": [
         {
-          "assetId": "09dc888b0b7df19f70d81588ae73420e",
-          "name": "造型1",
+          "assetId": "37adf420abef899a024dc8e9def14ada",
+          "name": "WZ-run1",
           "bitmapResolution": 1,
-          "md5ext": "09dc888b0b7df19f70d81588ae73420e.svg",
+          "md5ext": "37adf420abef899a024dc8e9def14ada.svg",
           "dataFormat": "svg",
-          "rotationCenterX": 47,
-          "rotationCenterY": 55
+          "rotationCenterX": 132,
+          "rotationCenterY": 177
         },
         {
-          "assetId": "3696356a03a8d938318876a593572843",
-          "name": "造型2",
+          "assetId": "59d2003830d4eb592cf5d9a37561fde9",
+          "name": "WZ-run2",
           "bitmapResolution": 1,
-          "md5ext": "3696356a03a8d938318876a593572843.svg",
+          "md5ext": "59d2003830d4eb592cf5d9a37561fde9.svg",
           "dataFormat": "svg",
-          "rotationCenterX": 47,
-          "rotationCenterY": 55
+          "rotationCenterX": 132,
+          "rotationCenterY": 170
+        },
+        {
+          "assetId": "52656dad6a045a77b57d38ea85bf3c2c",
+          "name": "WZ-run3",
+          "bitmapResolution": 1,
+          "md5ext": "52656dad6a045a77b57d38ea85bf3c2c.svg",
+          "dataFormat": "svg",
+          "rotationCenterX": 141,
+          "rotationCenterY": 181
+        },
+        {
+          "assetId": "0ca03cb3489e383f1a97b76c9cc2b95c",
+          "name": "WZ-run4",
+          "bitmapResolution": 1,
+          "md5ext": "0ca03cb3489e383f1a97b76c9cc2b95c.svg",
+          "dataFormat": "svg",
+          "rotationCenterX": 140,
+          "rotationCenterY": 170
         }
       ],
       "sounds": [
         {
-          "assetId": "83c36d806dc92327b9e7049a565c6bff",
-          "name": "喵",
+          "assetId": "83a9787d4cb6f3b7632b4ddfebf74367",
+          "name": "pop",
           "dataFormat": "wav",
           "format": "",
-          "rate": 22050,
-          "sampleCount": 18688,
-          "md5ext": "83c36d806dc92327b9e7049a565c6bff.wav"
+          "rate": 11025,
+          "sampleCount": 258,
+          "md5ext": "83a9787d4cb6f3b7632b4ddfebf74367.wav"
         }
       ],
       "volume": 100,
       "visible": true,
       "x": 0,
       "y": 0,
-      "size": 100,
+      "size": 50,
       "direction": 90,
       "draggable": false,
       "rotationStyle": "all around"
