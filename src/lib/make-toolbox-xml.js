@@ -312,7 +312,7 @@ const sound = function (isStage, targetId) {
 
 const events = function (isStage) {
     return `
-    <category name="事件" id="events" colour="#FFD500" secondaryColour="#CC9900">
+    <category name="事件" id="events" colour="#E1A91A" secondaryColour="#CC9900">
         <block type="event_whenflagclicked"/>
         <block type="event_whenkeypressed">
         </block>
