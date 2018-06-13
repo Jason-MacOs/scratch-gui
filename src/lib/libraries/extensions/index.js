@@ -10,6 +10,13 @@ import translateImage from './translate.png';
 
 export default [
     {
+        name: 'Arduino',
+        extensionId: 'arduino',
+        iconURL: 'https://www.arduino.cc/en/pub/skins/arduinoWide/img/ArduinoAPP-01.svg',
+        description: 'Extension Arduino.',
+        featured: true
+    },
+    {
         name: '音乐',
         extensionId: 'music',
         iconURL: musicImage,
