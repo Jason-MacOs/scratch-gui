@@ -2,9 +2,8 @@ import axios from 'axios';
 import io from 'socket.io-client';
 
 var runCode = (function() {
-    const URL = 'http://10.0.0.25:6543';
     const PROTOCOL = window.location.protocol;
-    const LOCALHOST_NAME = PROTOCOL === 'https:' ? 'https://127.0.0.1' : 'http://127.0.0.1';
+    const LOCALHOST_NAME = 'http://127.0.0.1';
     // connections on a range of ports from 8990 to 9000
     const PORTS = Array.from({length: 11}, (x, i) => i + 8990);
     const EXTRA = {
@@ -14,7 +13,7 @@ var runCode = (function() {
         use_1200bps_touch: false
     };
 
-    var socket, reply, port, portName;
+    var socket, reply, portName;
 
     // get reply from 127.0.0.1:xxxx
     function _getReply() {
@@ -37,11 +36,9 @@ var runCode = (function() {
     // open a websocket
     function _openWebsocket() {
         if (window['WebSocket']) {
-            if (PROTOCOL === 'https:') {
-                port = reply.https.slice(-4);
-                socket = io(reply.https);
+            if (PROTOCOL == 'https:') {
+                socket = io(reply.https); 
             } else {
-                port = reply.http.slice(-4);
                 socket = io(reply.http);
             }
             // get port name
@@ -60,7 +57,7 @@ var runCode = (function() {
             });
             socket.on('command', `open ${portName} 9600`)
             socket.on('disconnect', function (evt) {
-                port = '';
+                reply = {};
                 alert('已断开连接！')
             })
         } else {
@@ -70,7 +67,13 @@ var runCode = (function() {
 
     // download sketch
     function _downloadSketch(url) {
-        if (!port) {
+        var href = "";
+        if (PROTOCOL == "https:") {
+            href = reply.https;
+        } else {
+            href = reply.http;
+        }
+        if (!href) {
             alert('哎呀！打开Arduino助手了吗？');
         } else if (!portName) {
             alert("哎呀！连接Arduino板了吗？");
@@ -94,9 +97,15 @@ var runCode = (function() {
 
     // upload
     function _upload(data){
+        var href;
+        if (PROTOCOL == 'https:') {
+            href = reply.https;
+        } else {
+            href = reply.http;
+        }
         axios({
             method: 'POST',
-            url: `${LOCALHOST_NAME}:${port}/upload`,
+            url: `${href}/upload`,
             data: data
         }).then(response => {
             // alert('上传成功啦！');
