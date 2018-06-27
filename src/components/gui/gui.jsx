@@ -23,6 +23,8 @@ import WebGlModal from '../../containers/webgl-modal.jsx';
 import TipsLibrary from '../../containers/tips-library.jsx';
 import Cards from '../../containers/cards.jsx';
 import DragLayer from '../../containers/drag-layer.jsx';
+// import Popup from '../../containers/popup.jsx';
+import Popup from '../../components/popup/popup.jsx';
 
 import styles from './gui.css';
 import addExtensionIcon from './icon--extensions.svg';
@@ -65,6 +67,8 @@ const GUIComponent = props => {
         soundsTabVisible,
         tipsLibraryVisible,
         vm,
+        popupVisible,
+        popupCode,
         ...componentProps
     } = props;
     if (children) {
@@ -79,7 +83,8 @@ const GUIComponent = props => {
         tabPanelSelected: classNames(tabStyles.reactTabsTabPanelSelected, styles.isSelected),
         tabSelected: classNames(tabStyles.reactTabsTabSelected, styles.isSelected)
     };
-
+    
+    const isArduino = vm.extensionManager.isExtensionLoaded('arduino');
     if (isRendererSupported === null) {
         isRendererSupported = Renderer.isSupported();
     }
@@ -112,6 +117,9 @@ const GUIComponent = props => {
             {cardsVisible ? (
                 <Cards />
             ) : null}
+            {popupVisible ? (
+                <Popup />
+            ) : null}
             <MenuBar enableCommunity={enableCommunity} />
             <Box className={styles.bodyWrapper}>
                 <Box className={styles.flexWrapper}>
@@ -136,6 +144,7 @@ const GUIComponent = props => {
                                         id="gui.gui.codeTab"
                                     />
                                 </Tab>
+                                {isArduino ? null :
                                 <Tab
                                     className={tabClassNames.tab}
                                     onClick={onActivateCostumesTab}
@@ -157,7 +166,8 @@ const GUIComponent = props => {
                                             id="gui.gui.costumesTab"
                                         />
                                     )}
-                                </Tab>
+                                </Tab>}
+                                {isArduino ? null :
                                 <Tab
                                     className={tabClassNames.tab}
                                     onClick={onActivateSoundsTab}
@@ -171,7 +181,7 @@ const GUIComponent = props => {
                                         description="Button to get to the sounds panel"
                                         id="gui.gui.soundsTab"
                                     />
-                                </Tab>
+                                </Tab>}
                             </TabList>
                             <TabPanel className={tabClassNames.tabPanel}>
                                 <Box className={styles.blocksWrapper}>
@@ -184,6 +194,7 @@ const GUIComponent = props => {
                                         vm={vm}
                                     />
                                 </Box>
+                                {isArduino ? null :
                                 <Box className={styles.extensionButtonContainer}>
                                     <button
                                         className={styles.extensionButton}
@@ -196,20 +207,21 @@ const GUIComponent = props => {
                                             src={addExtensionIcon}
                                         />
                                     </button>
-                                </Box>
+                                </Box>}
                             </TabPanel>
+
+                            {isArduino ? null :
                             <TabPanel className={tabClassNames.tabPanel}>
                                 {costumesTabVisible ? <CostumeTab vm={vm} /> : null}
-                            </TabPanel>
+                            </TabPanel>}
+                            {isArduino ? null :
                             <TabPanel className={tabClassNames.tabPanel}>
                                 {soundsTabVisible ? <SoundTab vm={vm} /> : null}
-                            </TabPanel>
+                            </TabPanel>}
                         </Tabs>
-                        {/*
                         {backpackOptions.visible ? (
                             <Backpack host={backpackOptions.host} />
                         ) : null}
-                        */}
                     </Box>
 
                     <Box className={styles.stageAndTargetWrapper}>
@@ -252,7 +264,9 @@ GUIComponent.propTypes = {
     soundsTabVisible: PropTypes.bool,
     targetIsStage: PropTypes.bool,
     tipsLibraryVisible: PropTypes.bool,
-    vm: PropTypes.instanceOf(VM).isRequired
+    vm: PropTypes.instanceOf(VM).isRequired,
+    popupVisible: PropTypes.bool,
+    popupCode: PropTypes.string
 };
 GUIComponent.defaultProps = {
     backpackOptions: {

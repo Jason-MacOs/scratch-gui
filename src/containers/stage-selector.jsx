@@ -84,6 +84,7 @@ class StageSelector extends React.Component {
             id,
             onActivateTab,
             onSelect,
+            dispatchSetHoveredSprite,
             /* eslint-enable no-unused-vars */
             ...componentProps
         } = this.props;
