@@ -13,7 +13,7 @@ import styles from './custom-procedures.css';
 const CustomProcedures = props => (
     <Modal
         className={styles.modalContent}
-        contentLabel="Make a Block"
+        contentLabel="创建函数"
         onRequestClose={props.onCancel}
     >
         <Box
