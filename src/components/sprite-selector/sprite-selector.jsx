@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import classNames from 'classnames';
 import {defineMessages, injectIntl, intlShape} from 'react-intl';
+import VM from 'scratch-vm';
 
 import Box from '../box/box.jsx';
 import SpriteInfo from '../../containers/sprite-info.jsx';
@@ -40,6 +41,7 @@ const messages = defineMessages({
 
 const SpriteSelectorComponent = function (props) {
     const {
+        vm,
         editingTarget,
         hoveredTarget,
         intl,
@@ -118,7 +120,7 @@ const SpriteSelectorComponent = function (props) {
                     }
                 </Box>
             </Box>
-            <ActionMenu
+            {vm.extensionManager.isExtensionLoaded('arduino') ? null : <ActionMenu
                 className={styles.addButton}
                 img={spriteIcon}
                 moreButtons={[
@@ -141,12 +143,13 @@ const SpriteSelectorComponent = function (props) {
                 ]}
                 title={intl.formatMessage(messages.addSpriteFromLibrary)}
                 onClick={onNewSpriteClick}
-            />
+            />}
         </Box>
     );
 };
 
 SpriteSelectorComponent.propTypes = {
+    vm: PropTypes.instanceOf(VM),
     editingTarget: PropTypes.string,
     hoveredTarget: PropTypes.shape({
         hoveredSprite: PropTypes.string,

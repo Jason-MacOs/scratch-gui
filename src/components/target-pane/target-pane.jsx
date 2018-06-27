@@ -67,8 +67,11 @@ const TargetPane = ({
             onSelectSprite={onSelectSprite}
             onSpriteUpload={onSpriteUpload}
             onSurpriseSpriteClick={onSurpriseSpriteClick}
+            vm={vm}
         />
-        <div className={styles.stageSelectorWrapper}>
+        {vm.extensionManager.isExtensionLoaded('arduino') ?
+            <div className={styles.nullStageSelectorWrapper}></div>  
+            : <div className={styles.stageSelectorWrapper}>
             {stage.id && <StageSelector
                 assetId={
                     stage.costume &&
@@ -78,6 +81,7 @@ const TargetPane = ({
                 id={stage.id}
                 selected={stage.id === editingTarget}
                 onSelect={onSelectSprite}
+                vm={vm}
             />}
             <div>
                 {spriteLibraryVisible ? (
@@ -87,7 +91,7 @@ const TargetPane = ({
                     />
                 ) : null}
             </div>
-        </div>
+        </div>}
     </div>
 );
 

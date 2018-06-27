@@ -13,3 +13,7 @@
     flex-shrink: 0;
     margin-left: calc($space / 2);
 }
+
+.null-stage-selector-wrapper {
+    margin-left: calc(-$space /2);
+}

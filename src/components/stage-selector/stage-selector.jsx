@@ -2,6 +2,7 @@ import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 import {defineMessages, intlShape, injectIntl, FormattedMessage} from 'react-intl';
+import VM from 'scratch-vm'; 
 
 import Box from '../box/box.jsx';
 import ActionMenu from '../action-menu/action-menu.jsx';
@@ -53,10 +54,12 @@ const StageSelector = props => {
         onNewBackdropClick,
         onSurpriseBackdropClick,
         onEmptyBackdropClick,
+        vm,
         ...componentProps
     } = props;
     return (
-        <Box
+        <div className={styles.nullStageWrapper}>
+        {vm.extensionManager.isExtensionLoaded('arduino') ? null : <Box
             className={classNames(styles.stageSelector, {
                 [styles.isSelected]: selected,
                 [styles.raised]: raised,
@@ -117,7 +120,8 @@ const StageSelector = props => {
                 title={intl.formatMessage(messages.addBackdropFromLibrary)}
                 onClick={onNewBackdropClick}
             />
-        </Box>
+        </Box>}
+    </div>
     );
 };
 
@@ -136,7 +140,8 @@ StageSelector.propTypes = {
     raised: PropTypes.bool.isRequired,
     receivedBlocks: PropTypes.bool.isRequired,
     selected: PropTypes.bool.isRequired,
-    url: PropTypes.string
+    url: PropTypes.string,
+    vm: PropTypes.instanceOf(VM)
 };
 
 export default injectIntl(StageSelector);

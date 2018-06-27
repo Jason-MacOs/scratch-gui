@@ -1,0 +1,22 @@
+.upload-code {
+    width: 2rem;
+    height: 2rem;
+    padding: 0.375rem;
+    border-radius: 0.25rem;
+    user-select: none;
+    user-drag: none;
+    cursor: pointer;
+    transition: 0.2s ease-out;
+}
+
+.upload-code {
+    opacity: 0.5;
+}
+
+.upload-code:hover {
+    transform: scale(1.2);
+}
+
+.upload-code.is-active {
+    opacity: 1;
+}

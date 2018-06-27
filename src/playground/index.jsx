@@ -29,7 +29,7 @@ const backpackHostMatches = window.location.href.match(/[?&]backpack_host=(.*)&?
 const backpackHost = backpackHostMatches ? backpackHostMatches[1] : null;
 
 const backpackOptions = {
-    visible: true,
+    visible: false,
     host: backpackHost
 };
 

@@ -1,5 +1,6 @@
 import {TextEncoder} from 'text-encoding';
 import projectJson from './project.json';
+import arduinoProjectJson from './arduino-project.json';
 
 /* eslint-disable import/no-unresolved */
 import popWav from '!arraybuffer-loader!./83a9787d4cb6f3b7632b4ddfebf74367.wav';
@@ -11,10 +12,13 @@ import costume3 from '!raw-loader!./37adf420abef899a024dc8e9def14ada.svg';
 import costume4 from '!raw-loader!./59d2003830d4eb592cf5d9a37561fde9.svg';
 import costume5 from '!raw-loader!./52656dad6a045a77b57d38ea85bf3c2c.svg';
 import costume6 from '!raw-loader!./0ca03cb3489e383f1a97b76c9cc2b95c.svg';
+import arduino from '!raw-loader!./849deddaf8daab4ca3dd88761cc1c368.svg';
 /* eslint-enable import/no-unresolved */
 
 const encoder = new TextEncoder();
-export default [{
+export default [
+// Default Scratch Project
+{
     id: 0,
     assetType: 'Project',
     dataFormat: 'JSON',
@@ -64,4 +68,16 @@ export default [{
     assetType: 'ImageVector',
     dataFormat: 'SVG',
     data: encoder.encode(costume6)
+},
+// Default Arduino Project
+{
+    id: 1,
+    assetType: 'Project',
+    dataFormat: 'JSON',
+    data: JSON.stringify(arduinoProjectJson)
+}, {
+    id: 'extension.arduino',
+    assetType: 'ImageVector',
+    dataFormat: 'SVG',
+    data: encoder.encode(arduino)
 }];

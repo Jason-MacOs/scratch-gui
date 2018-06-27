@@ -1,0 +1,60 @@
+{
+  "targets": [
+    {
+      "isStage": true,
+      "name": "Stage",
+      "variables": {},
+      "lists": {},
+      "broadcasts": {},
+      "blocks": {},
+      "currentCostume": 0,
+      "costumes": [ {
+          "assetId": "cd21514d0531fdffb22204e0ec5ed84a",
+          "name": "背景",
+          "md5ext": "cd21514d0531fdffb22204e0ec5ed84a.svg",
+          "dataFormat": "svg",
+          "rotationCenterX": 83,
+          "rotationCenterY": 85
+       }],
+      "sounds": [],
+      "volume": 100,
+      "tempo": 60,
+      "videoTransparency": 50,
+      "videoState": "off"
+    },
+    {
+      "isStage": false,
+      "name": "Arduino",
+      "variables": {},
+      "lists": {},
+      "broadcasts": {},
+      "blocks": {},
+      "currentCostume": 0,
+      "costumes": [
+        {
+          "assetId": "849deddaf8daab4ca3dd88761cc1c368",
+          "name": "Arduino",
+          "bitmapResolution": 1,
+          "md5ext": "849deddaf8daab4ca3dd88761cc1c368.svg",
+          "dataFormat": "svg",
+          "rotationCenterX": 83,
+          "rotationCenterY": 85
+        } 
+      ],
+      "sounds": [],
+      "volume": 100,
+      "visible": true,
+      "x": 0,
+      "y": 0,
+      "size": 50,
+      "direction": 90,
+      "draggable": false,
+      "rotationStyle": "all around"
+    }
+  ],
+  "meta": {
+    "semver": "3.0.0",
+    "vm": "0.1.0",
+    "agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36"
+  }
+}

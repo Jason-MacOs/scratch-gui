@@ -132,7 +132,7 @@ class Blocks extends React.Component {
             this.workspace.setVisible(false);
         }
     }
-    componentWillUnmount () {
+    componentWillUnmount () {     
         this.detachVM();
         this.workspace.dispose();
         clearTimeout(this.toolboxUpdateTimeout);
@@ -253,7 +253,8 @@ class Blocks extends React.Component {
         if (this.props.vm.editingTarget) {
             const target = this.props.vm.editingTarget;
             const dynamicBlocksXML = this.props.vm.runtime.getBlocksXML();
-            const toolboxXML = makeToolboxXML(target.isStage, target.id, dynamicBlocksXML);
+            const isArduino = dynamicBlocksXML.includes('arduino');
+            const toolboxXML = makeToolboxXML(target.isStage, target.id, isArduino, dynamicBlocksXML);
             this.props.updateToolboxState(toolboxXML);
         }
 
@@ -279,24 +280,34 @@ class Blocks extends React.Component {
         // select JSON from each block info object then reject the pseudo-blocks which don't have JSON, like separators
         // this actually defines blocks and MUST run regardless of the UI state
         this.ScratchBlocks.defineBlocksWithJsonArray(blocksInfo.map(blockInfo => blockInfo.json).filter(x => x));
-
         // update the toolbox view: this can be skipped if we're not looking at a target, etc.
         const runtime = this.props.vm.runtime;
         const target = runtime.getEditingTarget() || runtime.getTargetForStage();
         if (target) {
             const dynamicBlocksXML = runtime.getBlocksXML();
-            const toolboxXML = makeToolboxXML(target.isStage, target.id, dynamicBlocksXML);
+            const isArduino = dynamicBlocksXML.includes('arduino');
+            // update default project to arduino default project when arduino extension added
+            if (isArduino) {
+                const projectLink = document.createElement('a');
+                document.body.appendChild(projectLink);
+                projectLink.href = `#1`;
+                projectLink.click();
+                document.body.removeChild(projectLink);
+            }
+            const toolboxXML = makeToolboxXML(target.isStage, target.id, isArduino, dynamicBlocksXML);
             this.props.updateToolboxState(toolboxXML);
         }
-    }
-    handleBlocksInfoUpdate (blocksInfo) {
-        // @todo Later we should replace this to avoid all the warnings from redefining blocks.
-        this.handleExtensionAdded(blocksInfo);
     }
     handleCategorySelected (categoryId) {
         this.withToolboxUpdates(() => {
             this.workspace.toolbox_.setSelectedCategoryById(categoryId);
+            // reset url without refresh
+            history.replaceState({}, document.title, '.');
         });
+    }
+    handleBlocksInfoUpdate (blocksInfo) {
+        // @todo Later we should replace this to avoid all the warnings from redefining blocks.
+        this.handleExtensionAdded(blocksInfo);
     }
     setBlocks (blocks) {
         this.blocks = blocks;
