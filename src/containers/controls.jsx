@@ -11,7 +11,7 @@ import runCode from '../lib/command-utils';
 
 import axios from 'axios';
 
-const HOST = "http://10.0.0.25:6543";
+const HOST = "https://arduino.codepku.com";
 
 class Controls extends React.Component {
     constructor (props) {
