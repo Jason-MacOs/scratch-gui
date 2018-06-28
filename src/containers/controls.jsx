@@ -10,6 +10,7 @@ import {openPopup} from '../reducers/popup';
 import runCode from '../lib/command-utils';
 
 import axios from 'axios';
+import Swal from 'sweetalert2';
 
 const HOST = "https://arduino.codepku.com";
 
@@ -37,7 +38,8 @@ class Controls extends React.Component {
             isArduino: false,
             codeCompiling: false,
             codeUploading: false,
-            codeRunning: false
+            codeRunning: false,
+            compiled: false
         };
     }
     componentDidMount () {
@@ -91,9 +93,8 @@ class Controls extends React.Component {
     // compile user input code
     handleCompileCodeClick() {
         if (!this.props.code) {
-            alert("请先上传代码");
+            Swal("小提示", "请先上传代码", 'warning');
         } else {
-            this.setState({codeCompiling: true});
             let data = new FormData();
             data.append("b", "uno");
             data.append("s", this.props.code);
@@ -106,22 +107,26 @@ class Controls extends React.Component {
                 },
                 data: data
             }).then((response) => {
-                this.setState({codeCompiling: false});
                 let res = response.data;
                 if (res.success == 1) {
-                    this.setState({sketch: res.data.sketch});
+                    Swal({
+                        toast: true,
+                        position: 'top-end',
+                        title: '编译成功',
+                        type: 'success',
+                        showConfirmButton: false,
+                        timer: 3000
+                    });
                     this.setState({downloadUrl: `${HOST}/sketch?s=${res.data.sketch}&b=uno`});
                 } else {
-                    alert(res.data.message); 
+                    Swal('出错了...', res.data.message, 'error'); 
                 }
             }).catch((error) => {
-                alert(error);
-                this.setState({codeCompiling: false});
+                Swal('出错了...', error, 'error');
             }) 
         }
     }
     handleRunCodeClick() {
-        // this.setState({codeRunning: true});
         this.handleCompileCodeClick();
         var r = runCode;
         r.getReply();
