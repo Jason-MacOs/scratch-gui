@@ -109,10 +109,12 @@ var runCode = (function() {
             data: data
         }).then(response => {
             Swal({
+                toast: true,
+                position: 'top-end',
                 title: '上传成功',
                 type: 'success',
                 showConfirmButton: false,
-                timer: 1500
+                timer: 3000
             });
         }).catch(error => {
             Swal('出错了...', error.response.data || '再试一下吧', 'error');

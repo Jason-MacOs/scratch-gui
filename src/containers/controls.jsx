@@ -92,7 +92,6 @@ class Controls extends React.Component {
     }
     // compile user input code
     handleCompileCodeClick() {
-        this.setState({compiled: true});
         if (!this.props.code) {
             Swal("小提示", "请先上传代码", 'warning');
         } else {
@@ -111,10 +110,12 @@ class Controls extends React.Component {
                 let res = response.data;
                 if (res.success == 1) {
                     Swal({
+                        toast: true,
+                        position: 'top-end',
                         title: '编译成功',
                         type: 'success',
                         showConfirmButton: false,
-                        timer: 1500
+                        timer: 3000
                     });
                     this.setState({downloadUrl: `${HOST}/sketch?s=${res.data.sketch}&b=uno`});
                 } else {
@@ -126,14 +127,10 @@ class Controls extends React.Component {
         }
     }
     handleRunCodeClick() {
-        // this.handleCompileCodeClick();
-        if (this.state.compiled == true) {
-            var r = runCode;
-            r.getReply();
-            r.downloadSketch(this.state.downloadUrl);
-        } else {
-            Swal('小提示', '请先编译', 'warning');
-        }
+        this.handleCompileCodeClick();
+        var r = runCode;
+        r.getReply();
+        r.downloadSketch(this.state.downloadUrl);
     }
     render () {
         const {
