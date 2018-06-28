@@ -1,5 +1,6 @@
 import axios from 'axios';
 import io from 'socket.io-client';
+import Swal from 'sweetalert2';
 
 var runCode = (function() {
     const PROTOCOL = window.location.protocol;
@@ -58,40 +59,39 @@ var runCode = (function() {
             socket.on('command', `open ${portName} 9600`)
             socket.on('disconnect', function (evt) {
                 reply = {};
-                alert('已断开连接！')
+                Swal('小提示', '已断开连接', 'info');
             })
         } else {
-            alert('哎呀！你的浏览器不支持WebSockets哦。')
+            Swal('小提示', '你的浏览器不支持WebSockets, 换个浏览器试试吧', 'warning');
         }
     }
 
     // download sketch
     function _downloadSketch(url) {
-        var href = "";
-        if (PROTOCOL == "https:") {
-            href = reply.https;
+        if (!reply){
+            Swal('小提示', '打开Arduino助手了吗？', 'warning');
         } else {
-            href = reply.http;
-        }
-        if (!href) {
-            alert('哎呀！打开Arduino助手了吗？');
-        } else if (!portName) {
-            alert("哎呀！连接Arduino板了吗？");
-        } else {
-            axios({
-                method: 'get',
-                url: url,
-            }).then((response) => {
-                //      resolve(response);
-                var data = response.data.data;
-                data['port'] = portName;
-                data['extra'] = EXTRA;
-                _upload(data)
-            
-            }).catch((error) => {
-                // reject(error);
-                console.log(error)
-            })
+            var href = "";
+            if (PROTOCOL == "https:") {
+                href = reply.https;
+            } else {
+                href = reply.http;
+            }
+            if (!portName) {
+                Swal('小提示', '连接Arduino板了吗？', 'warning');
+            } else {
+                axios({
+                    method: 'get',
+                    url: url,
+                }).then((response) => {
+                    var data = response.data.data;
+                    data['port'] = portName;
+                    data['extra'] = EXTRA;
+                    _upload(data)
+                }).catch((error) => {
+                    console.log(error)
+                })
+            }
         }
     }
 
@@ -108,9 +108,14 @@ var runCode = (function() {
             url: `${href}/upload`,
             data: data
         }).then(response => {
-            // alert('上传成功啦！');
+            Swal({
+                title: '上传成功',
+                type: 'success',
+                showConfirmButton: false,
+                timer: 1500
+            });
         }).catch(error => {
-            alert('哎呀！\n' + error.response.data || '');
+            Swal('出错了...', error.response.data || '再试一下吧', 'error');
         })
     }
 

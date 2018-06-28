@@ -7,6 +7,7 @@ import {closePopup, submitPopup} from '../../reducers/popup';
 
 import styles from './popup.css';
 import closeIcon from '../close-button/icon--close.svg';
+import Swal from 'sweetalert2';
 
 class Popup extends React.Component {
     constructor(props) {
@@ -25,6 +26,12 @@ class Popup extends React.Component {
     handleSubmitCode(e) {
         e.preventDefault();
         this.props.onSubmitPopup(btoa(this.state.code));
+        Swal({
+            title: '上传成功', 
+            type: 'success', 
+            showConfirmButton: false,
+            timer: 1500
+        });
     } 
 
     render() {
