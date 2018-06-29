@@ -2,12 +2,9 @@ const categorySeparator = '<sep gap="36"/>';
 
 const blockSeparator = '<sep gap="36"/>'; // At default scale, about 28px
 
-const motion = function (isStage, targetId, isArduino) {
+const motion = function (isStage, targetId) {
     return `
     <category name="动作" id="motion" colour="#4C97FF" secondaryColour="#3373CC">
-    ${isArduino ? `
-    <label text="Arduino selected: no motion blocks"></label>
-    ` : `
         ${isStage ? `
         <label text="Stage selected: no motion blocks"></label>
         ` : ` 
@@ -129,20 +126,16 @@ const motion = function (isStage, targetId, isArduino) {
         ${blockSeparator}
         <block id="${targetId}_xposition" type="motion_xposition"/>
         <block id="${targetId}_yposition" type="motion_yposition"/>
-        <block id="${targetId}_direction" type="motion_direction"/>`}`}
+        <block id="${targetId}_direction" type="motion_direction"/>`}
         ${categorySeparator}
     </category>
     `;
 };
 
-const looks = function (isStage, targetId, isArduino) {
+const looks = function (isStage, targetId) {
     return `
     <category name="外观" id="looks" colour="#9966FF" secondaryColour="#774DCB">
-    ${isArduino ? `
-        <label text="Arduino selected: no looks blocks"></label>
-        ${targetId}
-    ` : `
-        ${isStage ? '' : `  
+        ${isStage ? '' : `
         <block type="looks_sayforsecs">
             <value name="MESSAGE">
                 <shadow type="text">
@@ -260,18 +253,15 @@ const looks = function (isStage, targetId, isArduino) {
             <block id="${targetId}_costumenumbername" type="looks_costumenumbername"/>
             <block id="backdropnumbername" type="looks_backdropnumbername"/>
             <block id="${targetId}_size" type="looks_size"/>
-        `}`}
+        `}
         ${categorySeparator}
     </category>
     `;
 };
 
-const sound = function (isStage, targetId, isArduino) {
+const sound = function (isStage, targetId) {
     return `
     <category name="声音" id="sound" colour="#D65CD6" secondaryColour="#BD42BD">
-        ${isArduino ? `
-        <label text="Arduino selected: no sound blocks"></label>
-        ` : `
         <block id="${targetId}_sound_play" type="sound_play">
             <value name="SOUND_MENU">
                 <shadow type="sound_sounds_menu"/>
@@ -315,18 +305,14 @@ const sound = function (isStage, targetId, isArduino) {
             </value>
         </block>
         <block id="volume" type="sound_volume"/>
-        `}
         ${categorySeparator}
     </category>
     `;
 };
 
-const events = function (isStage, targetId, isArduino) {
+const events = function (isStage, targetId) {
     return `
     <category name="事件" id="events" colour="#E1A91A" secondaryColour="#CC9900">
-        ${isArduino ? `
-        <label text="Arduino selected: no events blocks"></label>
-        ` : `
         <block type="event_whenflagclicked"/>
         <block type="event_whenkeypressed">
         </block>
@@ -358,13 +344,12 @@ const events = function (isStage, targetId, isArduino) {
               <shadow type="event_broadcast_menu"></shadow>
             </value>
         </block>
-        `}
         ${categorySeparator}
     </category>
     `;
 };
 
-const control = function (isStage, targetId, isArduino) {
+const control = function (isStage, targetId) {
     return `
     <category name="控制" id="control" colour="#FFAB19" secondaryColour="#CF8B17">
         <block type="control_wait">
@@ -390,9 +375,8 @@ const control = function (isStage, targetId, isArduino) {
         <block id="repeat_until" type="control_repeat_until"/>
         ${blockSeparator}
         <block type="control_stop"/>
-        ${isArduino ? ''
-        : `
         ${blockSeparator}
+        ${targetId == 'arduino' ? `<!--` : ``}
         ${isStage ? `
             <block type="control_create_clone_of">
                 <value name="CLONE_OPTION">
@@ -407,18 +391,16 @@ const control = function (isStage, targetId, isArduino) {
                 </value>
             </block>
             <block type="control_delete_this_clone"/>
-        `}`}
+        `}
+        ${targetId == 'arduino' ? `-->` : ``}
         ${categorySeparator}
     </category>
     `;
 };
 
-const sensing = function (isStage, targetId, isArduino) {
+const sensing = function (isStage, targetId) {
     return `
     <category name="侦测" id="sensing" colour="#4CBFE6" secondaryColour="#2E8EB8">
-    ${isArduino ? `
-        <label text="Arduino selected: no sensing blocks"></label>
-    ` : `
         ${isStage ? '' : `
             <block type="sensing_touchingobject">
                 <value name="TOUCHINGOBJECTMENU">
@@ -483,7 +465,6 @@ const sensing = function (isStage, targetId, isArduino) {
         <block type="sensing_dayssince2000"/>
         ${blockSeparator}
         <block type="sensing_username"/>
-        `}
         ${categorySeparator}
     </category>
     `;
@@ -691,22 +672,21 @@ const xmlClose = '</xml>';
 /**
  * @param {!boolean} isStage - Whether the toolbox is for a stage-type target.
  * @param {?string} targetId - The current editing target
- * @param {!boolean} isArduino - Whether the project is arduino.
  * @param {string?} categoriesXML - null for default toolbox, or an XML string with <category> elements.
  * @returns {string} - a ScratchBlocks-style XML document for the contents of the toolbox.
  */
-const makeToolboxXML = function (isStage, targetId, isArduino, categoriesXML) {
+const makeToolboxXML = function (isStage, targetId, categoriesXML) {
     const gap = [categorySeparator];
 
     const everything = [
         xmlOpen,
-        motion(isStage, targetId, isArduino), gap,
-        looks(isStage, targetId, isArduino), gap,
-        sound(isStage, targetId, isArduino), gap,
-        events(isStage, targetId, isArduino), gap,
-        control(isStage, targetId, isArduino), gap,
-        sensing(isStage, targetId, isArduino), gap,
-        operators(isStage, targetId, isArduino), gap,
+        motion(isStage, targetId), gap,
+        looks(isStage, targetId), gap,
+        sound(isStage, targetId), gap,
+        events(isStage, targetId), gap,
+        control(isStage, targetId), gap,
+        sensing(isStage, targetId), gap,
+        operators(isStage, targetId), gap,
         variables(isStage, targetId), gap,
         myBlocks(isStage, targetId)
     ];
@@ -717,4 +697,22 @@ const makeToolboxXML = function (isStage, targetId, isArduino, categoriesXML) {
     return everything.join('\n');
 };
 
-export default makeToolboxXML;
+const makeArduinoToolboxXML = function (isStage, targetId, categoriesXML) {
+    const gap = [categorySeparator];
+
+    let toolbox = [
+        control(true || isStage, 'arduino'), gap,
+        myBlocks(isStage, targetId)
+    ];
+    if (categoriesXML) {
+        toolbox.push(gap, categoriesXML);
+    }
+
+    toolbox = [xmlOpen].concat(toolbox, [xmlClose]);
+    return toolbox.join('\n');
+};
+
+export {
+    makeToolboxXML as default,
+    makeArduinoToolboxXML
+};

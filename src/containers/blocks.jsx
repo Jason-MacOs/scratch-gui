@@ -1,7 +1,7 @@
 import bindAll from 'lodash.bindall';
 import debounce from 'lodash.debounce';
 import defaultsDeep from 'lodash.defaultsdeep';
-import makeToolboxXML from '../lib/make-toolbox-xml';
+import makeToolboxXML, {makeArduinoToolboxXML} from '../lib/make-toolbox-xml';
 import PropTypes from 'prop-types';
 import React from 'react';
 import VMScratchBlocks from '../lib/blocks';
@@ -132,7 +132,7 @@ class Blocks extends React.Component {
             this.workspace.setVisible(false);
         }
     }
-    componentWillUnmount () {     
+    componentWillUnmount () {
         this.detachVM();
         this.workspace.dispose();
         clearTimeout(this.toolboxUpdateTimeout);
@@ -254,7 +254,9 @@ class Blocks extends React.Component {
             const target = this.props.vm.editingTarget;
             const dynamicBlocksXML = this.props.vm.runtime.getBlocksXML();
             const isArduino = dynamicBlocksXML.includes('arduino');
-            const toolboxXML = makeToolboxXML(target.isStage, target.id, isArduino, dynamicBlocksXML);
+            const toolboxXML = isArduino ? 
+                    makeArduinoToolboxXML(target.isStage, target.id, dynamicBlocksXML) :
+                    makeToolboxXML(target.isStage, target.id, dynamicBlocksXML);
             this.props.updateToolboxState(toolboxXML);
         }
 
@@ -288,13 +290,11 @@ class Blocks extends React.Component {
             const isArduino = dynamicBlocksXML.includes('arduino');
             // update default project to arduino default project when arduino extension added
             if (isArduino) {
-                const projectLink = document.createElement('a');
-                document.body.appendChild(projectLink);
-                projectLink.href = `#1`;
-                projectLink.click();
-                document.body.removeChild(projectLink);
+                location.hash = '#1';
             }
-            const toolboxXML = makeToolboxXML(target.isStage, target.id, isArduino, dynamicBlocksXML);
+            const toolboxXML = isArduino ? 
+                    makeArduinoToolboxXML(target.isStage, target.id, dynamicBlocksXML) :
+                    makeToolboxXML(target.isStage, target.id, dynamicBlocksXML);
             this.props.updateToolboxState(toolboxXML);
         }
     }
