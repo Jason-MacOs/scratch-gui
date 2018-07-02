@@ -374,9 +374,9 @@ const control = function (isStage, targetId) {
         <block id="wait_until" type="control_wait_until"/>
         <block id="repeat_until" type="control_repeat_until"/>
         ${blockSeparator}
+        ${targetId == 'arduino' ? `<!--` : ``}
         <block type="control_stop"/>
         ${blockSeparator}
-        ${targetId == 'arduino' ? `<!--` : ``}
         ${isStage ? `
             <block type="control_create_clone_of">
                 <value name="CLONE_OPTION">
@@ -699,13 +699,18 @@ const makeToolboxXML = function (isStage, targetId, categoriesXML) {
 
 const makeArduinoToolboxXML = function (isStage, targetId, categoriesXML) {
     const gap = [categorySeparator];
+    isStage = true;
+    targetId = 'arduino';
 
     let toolbox = [
-        control(true || isStage, 'arduino'), gap,
+        control(true, targetId), gap,
+        operators(isStage, targetId), gap,
+        variables(isStage, targetId), gap,
         myBlocks(isStage, targetId)
     ];
     if (categoriesXML) {
-        toolbox.push(gap, categoriesXML);
+        toolbox.unshift(categoriesXML, gap);
+        //toolbox.push(gap, categoriesXML);
     }
 
     toolbox = [xmlOpen].concat(toolbox, [xmlClose]);

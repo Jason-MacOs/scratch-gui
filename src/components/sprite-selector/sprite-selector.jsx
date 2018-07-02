@@ -71,12 +71,18 @@ const SpriteSelectorComponent = function (props) {
         selectedSprite = {};
         spriteInfoDisabled = true;
     }
+    // Added by Park Lam 
+    // For hide sprite-info panel if Arduino extension loaded.
+    // Search the "isArduino" variable first.
+    const isArduino = vm.extensionManager.isExtensionLoaded('arduino');
+
     return (
         <Box
             className={styles.spriteSelector}
             {...componentProps}
         >
 
+            {!isArduino && 
             <SpriteInfo
                 direction={selectedSprite.direction}
                 disabled={spriteInfoDisabled}
@@ -92,6 +98,7 @@ const SpriteSelectorComponent = function (props) {
                 onChangeX={onChangeSpriteX}
                 onChangeY={onChangeSpriteY}
             />
+            }
 
             <Box className={styles.scrollWrapper}>
                 <Box className={styles.itemsWrapper}>
