@@ -9,6 +9,7 @@ const RunArduinoComponent = function (props) {
     const {
         active,
         running,
+        connected,
         className,
         title,
         ...componentProps
@@ -18,9 +19,7 @@ const RunArduinoComponent = function (props) {
             className={classNames(
                 className,
                 styles.runArduino,
-                {
-                    [styles.isActive]: running
-                }
+                { [styles.disabled]: !connected }
             )}
             draggable={false}
             src={runArduinoIcon}
@@ -33,12 +32,14 @@ RunArduinoComponent.propTypes = {
     active: PropTypes.bool,
     running: PropTypes.bool,
     className: PropTypes.string,
+    connected: PropTypes.bool,
     // onClick: PropTypes.func.isRequired,
     title: PropTypes.string
 };
 RunArduinoComponent.defaultProps = {
     active: false,
     running: false,
-    title: 'Run'
+    title: 'Run',
+    connected: false
 };
 export default RunArduinoComponent;

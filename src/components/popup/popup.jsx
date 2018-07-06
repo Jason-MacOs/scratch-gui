@@ -28,7 +28,7 @@ class Popup extends React.Component {
         this.props.onSubmitPopup(btoa(this.state.code));
         Swal({
             toast: true,
-            position: 'top-end',
+            position: 'top',
             title: '保存成功', 
             type: 'success', 
             showConfirmButton: false,

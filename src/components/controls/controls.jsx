@@ -56,6 +56,7 @@ const Controls = function (props) {
         turbo,
         vm,
         isArduino,
+        connected,
         ...componentProps
     } = props;
     
@@ -64,30 +65,41 @@ const Controls = function (props) {
             className={classNames(styles.controlsContainer, className)}
             {...componentProps}
         >
-            {isArduino ? <CompileArduino
+            {isArduino ? [
+            <CompileArduino
                 compiling={compiling}
                 title={intl.formatMessage(messages.compileTitle)}
                 onClick={onCompileCodeClick}
-            /> : <GreenFlag
-                active={active}
-                title={intl.formatMessage(messages.goTitle)}
-                onClick={onGreenFlagClick}
-            />}
-
-            {isArduino ? <RunArduino
+                key='compile'
+            />,
+            <RunArduino
                 running={running}
+                connected={connected}
                 title={intl.formatMessage(messages.runTitle)}
                 onClick={onRunCodeClick}
-            />: <StopAll
-                active={active}
-                title={intl.formatMessage(messages.stopTitle)}
-                onClick={onStopAllClick}
-            />}
-            {isArduino ? <UploadCode
+                key='run'
+            />,
+            <UploadCode
                 uploading={uploading}
                 title={intl.formatMessage(messages.uploadCodeTitle)}
                 onClick={onUploadCodeClick}
-            /> : null}
+                key='upload'
+            />
+            ] : [
+            <GreenFlag
+                active={active}
+                title={intl.formatMessage(messages.goTitle)}
+                onClick={onGreenFlagClick}
+                key='start'
+            />,
+            <StopAll
+                active={active}
+                title={intl.formatMessage(messages.stopTitle)}
+                onClick={onStopAllClick}
+                key='stop'
+            />
+            ]
+            }
             {turbo ? (
                 <TurboMode />
             ) : null}
@@ -109,7 +121,8 @@ Controls.propTypes = {
     onRunCodeClick: PropTypes.func.isRequired,
     turbo: PropTypes.bool,
     vm: PropTypes.instanceOf(VM).isRequired,
-    isArduino: PropTypes.bool
+    isArduino: PropTypes.bool,
+    connected: PropTypes.bool
 };
 
 Controls.defaultProps = {
@@ -118,7 +131,8 @@ Controls.defaultProps = {
     compiling: false,
     running: false,
     turbo: false,
-    isArduino: false
+    isArduino: false,
+    connected: false
 };
 
 export default injectIntl(Controls);

@@ -22,7 +22,7 @@ const reducer = function (state, action) {
         return Object.assign({}, state, {
             visible: false,
             code: action.code
-        })
+        });
     default:
         return state;
     }
