@@ -15,8 +15,8 @@ class SerialPopup extends React.Component {
 
         this.state = {
             output: '',
-            intervalId: null
         };
+        this._intervalId = null;
     }
 
     componentDidMount() {
@@ -25,12 +25,12 @@ class SerialPopup extends React.Component {
             let cont = runCode.getSerialData().join('');
             this.setState({ output: cont });
         }, 1000);
-        this.setState({intervalId: id});
+        this._intervalId = id;
     }
 
     componentWillUnmount() {
-        clearInterval(this.state.intervalId);
-        this.setState({intervalId: null});
+        clearInterval(this._intervalId);
+        this._intervalId = null;
         runCode.closeSerial();
     }
 
