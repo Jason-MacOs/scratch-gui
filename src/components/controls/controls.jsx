@@ -10,6 +10,7 @@ import TurboMode from '../turbo-mode/turbo-mode.jsx';
 import CompileArduino from '../compile-arduino/compile-arduino.jsx';
 import RunArduino from '../run-arduino/run-arduino.jsx';
 import UploadCode from '../upload-code/upload-code.jsx';
+import SerialPort from '../upload-code/serial-port.jsx';
 import styles from './controls.css';
 
 const messages = defineMessages({
@@ -37,6 +38,11 @@ const messages = defineMessages({
         id: 'gui.controls.uploadCode',
         defaultMessage: 'Upload Code',
         description: 'Upload code button title'
+    },
+    serialPortTitle: {
+        id: 'gui.controls.serialPort',
+        defaultMessage: 'Serial Output',
+        description: 'Serial port output.'
     }
 });
 
@@ -51,6 +57,7 @@ const Controls = function (props) {
         onGreenFlagClick,
         onStopAllClick,
         onUploadCodeClick,
+        onSerialPortClick,
         onCompileCodeClick,
         onRunCodeClick,
         turbo,
@@ -84,6 +91,11 @@ const Controls = function (props) {
                 title={intl.formatMessage(messages.uploadCodeTitle)}
                 onClick={onUploadCodeClick}
                 key='upload'
+            />,
+            <SerialPort
+                title={intl.formatMessage(messages.serialPortTitle)}
+                onClick={onSerialPortClick}
+                key='serial'
             />
             ] : [
             <GreenFlag
@@ -118,6 +130,7 @@ Controls.propTypes = {
     onStopAllClick: PropTypes.func.isRequired,
     onCompileCodeClick: PropTypes.func.isRequired,
     onUploadCodeClick: PropTypes.func.isRequired,
+    onSerialPortClick: PropTypes.func.isRequired,
     onRunCodeClick: PropTypes.func.isRequired,
     turbo: PropTypes.bool,
     vm: PropTypes.instanceOf(VM).isRequired,

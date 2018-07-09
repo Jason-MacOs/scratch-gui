@@ -7,10 +7,7 @@
     user-drag: none;
     cursor: pointer;
     transition: 0.2s ease-out;
-}
-
-.upload-code {
-    opacity: 0.5;
+    opacity: 1;
 }
 
 .upload-code:hover {

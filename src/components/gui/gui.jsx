@@ -25,6 +25,7 @@ import Cards from '../../containers/cards.jsx';
 import DragLayer from '../../containers/drag-layer.jsx';
 // import Popup from '../../containers/popup.jsx';
 import Popup from '../../components/popup/popup.jsx';
+import SerialPopup from '../../components/popup/serial-popup.jsx';
 
 import styles from './gui.css';
 import addExtensionIcon from './icon--extensions.svg';
@@ -69,6 +70,8 @@ const GUIComponent = props => {
         vm,
         popupVisible,
         popupCode,
+        serialVisible,
+        serialOutput,
         ...componentProps
     } = props;
     if (children) {
@@ -119,6 +122,9 @@ const GUIComponent = props => {
             ) : null}
             {popupVisible ? (
                 <Popup />
+            ) : null}
+            {serialVisible ? (
+                <SerialPopup />
             ) : null}
             <MenuBar enableCommunity={enableCommunity} />
             <Box className={styles.bodyWrapper}>
@@ -207,7 +213,8 @@ const GUIComponent = props => {
                                             src={addExtensionIcon}
                                         />
                                     </button>
-                                </Box>}
+                                </Box>
+                                }
                             </TabPanel>
 
                             {isArduino ? null :
@@ -266,7 +273,9 @@ GUIComponent.propTypes = {
     tipsLibraryVisible: PropTypes.bool,
     vm: PropTypes.instanceOf(VM).isRequired,
     popupVisible: PropTypes.bool,
-    popupCode: PropTypes.string
+    popupCode: PropTypes.string,
+    serialVisible: PropTypes.bool,
+    serialOutput: PropTypes.string
 };
 GUIComponent.defaultProps = {
     backpackOptions: {

@@ -6,7 +6,7 @@ import {connect} from 'react-redux';
 
 import analytics from '../lib/analytics';
 import ControlsComponent from '../components/controls/controls.jsx';
-import {openPopup} from '../reducers/popup';
+import {openPopup, openSerial} from '../reducers/popup';
 import runCode from '../lib/command-utils';
 
 import axios from 'axios';
@@ -22,6 +22,7 @@ class Controls extends React.Component {
             'handleGreenFlagClick',
             'handleStopAllClick',
             'handleUploadCodeClick',
+            'handleSerialPortClick',
             'handleCompileCodeClick',
             'handleRunCodeClick',
             'onProjectRunStart',
@@ -91,7 +92,7 @@ class Controls extends React.Component {
                     }
                     this.setState({connected: isConnected});
                 }
-                if(!installed || (!isConnected && !Swal.isVisible())) {
+                if((!installed || !isConnected) && !Swal.isVisible()) {
                     Swal({
                          toast: true,
                          position: 'top',
@@ -149,6 +150,9 @@ class Controls extends React.Component {
     }
     handleUploadCodeClick () {
         this.props.onOpenPopup();
+    }
+    handleSerialPortClick() {
+        this.props.onOpenSerial();
     }
     // Added by Maggie Lu
     // compile user input code
@@ -234,6 +238,7 @@ class Controls extends React.Component {
         const {
             vm, // eslint-disable-line no-unused-vars,
             onOpenPopup,
+            onOpenSerial,
             ...props
         } = this.props;
         return (
@@ -247,6 +252,7 @@ class Controls extends React.Component {
                 onGreenFlagClick={this.handleGreenFlagClick}
                 onStopAllClick={this.handleStopAllClick}
                 onUploadCodeClick={this.handleUploadCodeClick}
+                onSerialPortClick={this.handleSerialPortClick}
                 onCompileCodeClick={this.handleCompileCodeClick}
                 onRunCodeClick={this.handleRunCodeClick}
                 vm={vm}
@@ -260,6 +266,7 @@ class Controls extends React.Component {
 Controls.propTypes = {
     vm: PropTypes.instanceOf(VM),
     onOpenPopup: PropTypes.func.isRequired,
+    onOpenSerial: PropTypes.func.isRequired,
     code: PropTypes.string
 };
 
@@ -268,7 +275,8 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-    onOpenPopup: () => dispatch(openPopup())
+    onOpenPopup: () => dispatch(openPopup()),
+    onOpenSerial: () => dispatch(openSerial())
 });
 
 // export default Controls;

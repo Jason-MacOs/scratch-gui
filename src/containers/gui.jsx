@@ -117,7 +117,9 @@ const mapStateToProps = state => ({
     soundsTabVisible: state.scratchGui.editorTab.activeTabIndex === SOUNDS_TAB_INDEX,
     tipsLibraryVisible: state.scratchGui.modals.tipsLibrary,
     popupVisible: state.scratchGui.popup.visible,
-    popupCode: state.scratchGui.popup.code
+    popupCode: state.scratchGui.popup.code,
+    serialVisible: state.scratchGui.serial.visible,
+    serialOutput: state.scratchGui.serial.output
 });
 
 const mapDispatchToProps = dispatch => ({

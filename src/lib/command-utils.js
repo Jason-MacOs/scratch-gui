@@ -2,7 +2,7 @@ import axios from 'axios';
 import io from 'socket.io-client';
 import Swal from 'sweetalert2';
 
-var runCode = (function() {
+let runCode = (function() {
     const PROTOCOL = window.location.protocol;
     const LOCALHOST_NAME = 'http://127.0.0.1';
     // connections on a range of ports from 8990 to 9000
@@ -94,23 +94,110 @@ var runCode = (function() {
         }
     }
 
-    let _serialData = '';
-    const serialToast = Swal.mixin({
-        toast: true,
-        position: 'bottom-end',
-        showConfirmButton: false
-    });
+    function _openSerial() {
+        if(_ws && _ws.connected && _device) {
+            _ws.emit('command', `open ${_device['Name']} 115200`);
+        }
+    }
+
+    function _closeSerial() {
+        if(_ws && _ws.connected && _device) {
+            _ws.emit('command', `close ${_device['Name']}`);
+        }
+        _serialData = [];
+    }
+
+    let _serialData = [];
+    let _line = '';
     function _onSerialMessage(evt) {
         if(evt.indexOf('"D"') != -1) {
+            // Parse data from serial
             let data = JSON.parse(evt);
-            _serialData += data['D'];
-        }
+            _line += data['D'];
 
-        if(_serialData.indexOf('\r\n') != -1) {
-            console.debug(_serialData);
-            
-            _serialData = '';
+            if(_line.indexOf('\r\n') != -1) {
+                _serialData.push(_line);
+                if(_serialData.length >= 11) {
+                    _serialData.shift();
+                }
+                //let cont = _serialData.join('');
+                //window.serialData = cont;
+                _line = '';
+            }
+        } else if(evt.indexOf('"Flash"') != -1) {
+            let data = JSON.parse(evt);
+            if(data['Flash'] == 'Ok' && data['ProgrammerStatus'] == 'Done') {
+                Swal.hideLoading();
+                Swal({
+                    toast: true,
+                    position: 'top',
+                    title: '上传成功',
+                    type: 'success',
+                    showConfirmButton: false,
+                    timer: 2000
+                //}).then(() => {
+                    //_ws.emit('command', `open ${_device['Name']} 115200`);
+                });
+            }
+        } else if(evt.indexOf('"Error"') != -1) {
+            let data = JSON.parse(evt);
+            if(data['ProgrammerStatus'] == 'Error') {
+                Swal.hideLoading();
+                Swal({
+                    toast: true,
+                    position: 'top',
+                    title: '上传失败',
+                    type: 'error',
+                    text: data['Msg'],
+                    showConfirmButton: false
+                });
+            }
+        } else if(evt.indexOf('"Open"') != -1) {
+            let data = JSON.parse(evt);
+            if(data['Baud'] == 115200) {
+                Swal({
+                    toast: true,
+                    position: 'top',
+                    title: '成功',
+                    text: '串口已连接',
+                    type: 'success',
+                    showConfirmButton: false,
+                    timer: 3000
+                });
+                //_serialData.push('串口已连接\r\n');
+            }
+        } else if(evt.indexOf('"OpenFail"') != -1) {
+            let data = JSON.parse(evt);
+            if(data['Baud'] == 115200) {
+                Swal({
+                    toast: true,
+                    position: 'top',
+                    title: '失败',
+                    text: '串口连接失败',
+                    type: 'error',
+                    showConfirmButton: false,
+                    timer: 3000
+                });
+                //_serialData.push('串口连接失败\r\n');
+            }
+        } else if(evt.indexOf('"Close"') != -1) {
+            let data = JSON.parse(evt);
+            if(data['Baud'] == 115200) {
+                Swal({
+                    toast: true,
+                    position: 'top',
+                    title: '提示',
+                    text: '串口已断开',
+                    type: 'info',
+                    showConfirmButton: false,
+                    timer: 3000
+                });
+            }
         }
+    }
+
+    function _getSerialData() {
+        return _serialData;
     }
 
     const DOWNLOAD_AVRDUDE = 'downloadtool avrdude 6.3.0-arduino9';
@@ -218,9 +305,6 @@ var runCode = (function() {
                 if(!resp['Network']) {
                     if(resp['Ports'].length) {
                         _device = resp['Ports'][0];
-                        if(!_device['IsOpen']) {
-                            _ws.emit('command', `open ${_device['Name']} 115200`);
-                        }
                     } else {
                         _device = null;
                     }
@@ -239,18 +323,6 @@ var runCode = (function() {
         return _ws != null && _ws.connected && _hasDevice();
     }
 
-    function _send() {
-        if(!_isConnected()) {
-            Swal({
-                toast: true,
-                position: 'top',
-                title: '正在编译',
-                type: 'error',
-                timer: 3000
-            });
-        }
-    }
-
     function _hasDevice() {
         return _device != null;
     }
@@ -265,62 +337,65 @@ var runCode = (function() {
                 type: 'error'
             });
         } else {
-            axios({
-                method: 'GET',
-                url: url,
-            }).then((response) => {
-                var data = response.data.data;
-                data['port'] = _device['Name'];
-                data['extra'] = EXTRA;
-                let href = PROTOCOL == 'https:' ? _info['http'] : _info['http'];
+            Swal({
+                toast: true,
+                position: 'top',
+                title: '正在上传...',
+                type: 'info',
+                showConfirmButton: false
+            });
+            Swal.showLoading();
+            if(_ws && _ws.connected) {
+                _ws.emit('command', `close ${_device['Name']}`);
+            }
+            setTimeout(() => {
                 axios({
-                    method: 'POST',
-                    url: `${href}/upload`,
-                    data: data
-                }).then(resp => {
-                    console.debug(resp);
-                    if(resp.status == 202) {
+                    method: 'GET',
+                    url: url,
+                }).then((response) => {
+                    var data = response.data.data;
+                    data['port'] = _device['Name'];
+                    data['extra'] = EXTRA;
+                    let href = PROTOCOL == 'https:' ? _info['http'] : _info['http'];
+                    axios({
+                        method: 'POST',
+                        url: `${href}/upload`,
+                        data: data
+                    }).then(resp => {
+                        if(resp.status == 202) {
+                        } else {
+                            Swal.hideLoading();
+                            Swal({
+                                toast: true,
+                                position: 'top',
+                                title: '上传失败',
+                                text: resp.data,
+                                type: 'error',
+                                showConfirmButton: false,
+                            });
+                        }
+                    }).catch(err => {
+                        console.log(err);
+                        Swal.hideLoading();
                         Swal({
                             toast: true,
                             position: 'top',
-                            title: '上传成功',
-                            type: 'success',
-                            showConfirmButton: false,
-                            timer: 3000
+                            title: '上传失败',
+                            text: err,
+                            type: 'error'
                         });
-                    } else {
-                        Swal({
-                            toast: true,
-                            position: 'top',
-                            title: '上传成功',
-                            text: resp.data,
-                            type: 'success',
-                            showConfirmButton: false,
-                        });
-                    }
-                }).catch(err => {
-                    console.log(err);
-                    Swal({
-                        toast: true,
-                        position: 'top',
-                        title: '上传失败',
-                        text: err,
-                        type: 'error'
-                    });
-                    //Swal('出错了...', error.response.data || '再试一下吧', 'error');
+                    })
+                }).catch((error) => {
+                    Swal.hideLoading();
+                    console.log(error)
                 })
-            }).catch((error) => {
-                console.log(error)
-            })
+            }, 1000);
         }
     }
 
     return {
         downloadSketch: function(url) {
             return _downloadSketch(url);
-        },
-        openWebSocket: function() {
-            return _openWebSocket();
         },
         detectAgent: function() {
             return _detectAgent();
@@ -333,6 +408,15 @@ var runCode = (function() {
         },
         connect: function() {
             return _connect();
+        },
+        openSerial: function() {
+            return _openSerial();
+        },
+        closeSerial: function() {
+            return _closeSerial();
+        },
+        getSerialData: function() {
+            return _getSerialData();
         },
         uploadSketchFromUrl: function(url) {
             return _uploadSketchFromUrl(url);
