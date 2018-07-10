@@ -7,6 +7,7 @@ import wedoImage from './wedo.png';
 import ev3Image from './ev3.png';
 import boostImage from './boost.png';
 import translateImage from './translate.png';
+import lcdImage from './lcd.svg';
 
 export default [
     {
@@ -14,6 +15,13 @@ export default [
         extensionId: 'arduino',
         iconURL: 'https://www.arduino.cc/en/pub/skins/arduinoWide/img/ArduinoAPP-01.svg',
         description: 'Extension Arduino.',
+        featured: true
+    },
+    {
+        name: 'LCD',
+        extensionId: 'lcd',
+        iconURL: lcdImage,
+        description: 'Liquid Crystal Display.',
         featured: true
     },
     {
