@@ -319,13 +319,16 @@ class Blocks extends React.Component {
             const dynamicBlocksXML = runtime.getBlocksXML();
             const isArduino = dynamicBlocksXML.includes('arduino');
             // update default project to arduino default project when arduino extension added
-            if (isArduino) {
-                location.hash = '#1';
-            }
             const toolboxXML = isArduino ? 
                     makeArduinoToolboxXML(target.isStage, target.id, dynamicBlocksXML) :
                     makeToolboxXML(target.isStage, target.id, dynamicBlocksXML);
             this.props.updateToolboxState(toolboxXML);
+
+            if (isArduino) {
+                location.hash = '#1';
+                // try to clear variables
+                this.workspace.clear();
+            }
         }
     }
     handleCategorySelected (categoryId) {

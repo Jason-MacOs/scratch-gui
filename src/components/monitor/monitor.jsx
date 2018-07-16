@@ -53,11 +53,13 @@ const MonitorComponent = props => (
                 })}
             </Box>
         </Draggable>
+        {/*
         {props.mode === 'list' ? null : ReactDOM.createPortal((
             // Use a portal to render the context menu outside the flow to avoid
             // positioning conflicts between the monitors `transform: scale` and
             // the context menus `position: fixed`. For more details, see
             // http://meyerweb.com/eric/thoughts/2011/09/12/un-fixing-fixed-elements-with-css-transforms/
+        */}
             <ContextMenu id={`monitor-${props.label}`}>
                 <MenuItem onClick={props.onSetModeToDefault}>
                     <FormattedMessage
@@ -83,7 +85,9 @@ const MonitorComponent = props => (
                     </MenuItem>
                 ) : null}
             </ContextMenu>
+        {/*
         ), document.body)}
+        */}
     </ContextMenuTrigger>
 
 );

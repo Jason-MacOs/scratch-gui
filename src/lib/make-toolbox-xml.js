@@ -727,7 +727,7 @@ const makeArduinoToolboxXML = function (isStage, targetId, categoriesXML) {
     targetId = 'arduino';
 
     let toolbox = [
-        control(true, targetId), gap,
+        control(isStage, targetId), gap,
         operators(isStage, targetId), gap,
         variables(isStage, targetId), gap,
         myBlocks(isStage, targetId)
