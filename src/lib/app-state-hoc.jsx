@@ -13,7 +13,6 @@ import locales from 'scratch-l10n';
 import {detectLocale} from './detect-locale';
 
 import {ScratchPaintReducer} from 'scratch-paint';
-import intlDefault from '../playground/intl.js';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const enhancer = composeEnhancers(guiMiddleware);

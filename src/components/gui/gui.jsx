@@ -150,6 +150,12 @@ const GUIComponent = props => {
                         onRequestClose={onRequestCloseBackdropLibrary}
                     />
                 ) : null}
+                {popupVisible ? (
+                    <Popup />
+                ) : null}
+                {serialVisible ? (
+                    <SerialPopup />
+                ) : null }
                 <MenuBar
                     enableCommunity={enableCommunity}
                     onSeeCommunity={onSeeCommunity}
@@ -230,6 +236,7 @@ const GUIComponent = props => {
                                             vm={vm}
                                         />
                                     </Box>
+                                    {isArduino ? null : 
                                     <Box className={styles.extensionButtonContainer}>
                                         <button
                                             className={styles.extensionButton}
@@ -243,13 +250,18 @@ const GUIComponent = props => {
                                             />
                                         </button>
                                     </Box>
+                                    }
                                 </TabPanel>
+                                {isArduino ? null :
                                 <TabPanel className={tabClassNames.tabPanel}>
-                                    {costumesTabVisible && !isArduino ? <CostumeTab vm={vm} /> : null}
+                                    {costumesTabVisible ? <CostumeTab vm={vm} /> : null}
                                 </TabPanel>
+                                }
+                                {isArduino ? null :
                                 <TabPanel className={tabClassNames.tabPanel}>
-                                    {soundsTabVisible && !isArduino ? <SoundTab vm={vm} /> : null}
+                                    {soundsTabVisible ? <SoundTab vm={vm} /> : null}
                                 </TabPanel>
+                                }
                             </Tabs>
                             {backpackOptions.visible ? (
                                 <Backpack host={backpackOptions.host} />

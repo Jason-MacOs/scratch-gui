@@ -17,6 +17,9 @@ import ev3MenuImage from './device-connection/ev3/ev3-small.svg';
 import microbitDeviceImage from './device-connection/microbit/microbit-illustration.svg';
 import microbitMenuImage from './device-connection/microbit/microbit-small.svg';
 
+import lcdImage from './lcd.svg';
+import matrixImage from './matrix.svg';
+
 export default [
     {
         name: 'Arduino',
