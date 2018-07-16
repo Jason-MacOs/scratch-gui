@@ -367,7 +367,9 @@ const control = function (isStage, targetId) {
                 </shadow>
             </value>
         </block>
+        ${targetId == 'arduino' ? `<!--` : ``}
         <block id="forever" type="control_forever"/>
+        ${targetId == 'arduino' ? `-->` : ``}
         ${blockSeparator}
         <block type="control_if"/>
         <block type="control_if_else"/>

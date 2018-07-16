@@ -8,6 +8,7 @@ import ev3Image from './ev3.png';
 import boostImage from './boost.png';
 import translateImage from './translate.png';
 import lcdImage from './lcd.svg';
+import matrixImage from './matrix.svg';
 
 export default [
     {
@@ -22,6 +23,13 @@ export default [
         extensionId: 'lcd',
         iconURL: lcdImage,
         description: 'Liquid Crystal Display.',
+        featured: true
+    },
+    {
+        name: '点阵屏',
+        extensionId: 'matrix',
+        iconURL: matrixImage,
+        description: '点阵屏',
         featured: true
     },
     {

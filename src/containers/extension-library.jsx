@@ -44,7 +44,9 @@ class ExtensionLibrary extends React.PureComponent {
                 this.props.vm.extensionManager.loadExtensionURL(url).then(() => {
                     this.props.onCategorySelected(id);
                     if(id == 'arduino') {
-                        this.props.vm.extensionManager.loadExtensionURL('lcd');
+                        this.props.vm.extensionManager.loadExtensionURL('lcd').then(() => {
+                            this.props.vm.extensionManager.loadExtensionURL('matrix');
+                        });
                     }
                 });
             }
