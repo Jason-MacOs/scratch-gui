@@ -4,6 +4,7 @@ import SeleniumHelper from '../helpers/selenium-helper';
 const {
     clickText,
     clickXpath,
+    findByXpath,
     getDriver,
     getLogs,
     loadUri
@@ -26,9 +27,10 @@ describe('Working with the how-to library', () => {
         await loadUri(uri);
         await clickXpath('//button[@title="tryit"]');
         await clickText('Costumes');
-        await clickXpath('//*[@aria-label="How-to Library"]');
+        await clickXpath('//*[@aria-label="Tutorials"]');
         await clickText('Getting Started'); // Modal should close
-        await clickText('Add a Move Block and a Say Block'); // Make sure first card appears
+        // Make sure YouTube video on first card appears
+        await findByXpath('//div[contains(@class, "step-video")]');
         const logs = await getLogs();
         await expect(logs).toEqual([]);
     });

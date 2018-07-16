@@ -13,6 +13,7 @@ import backdropIcon from '../action-menu/icon--backdrop.svg';
 import fileUploadIcon from '../action-menu/icon--file-upload.svg';
 import paintIcon from '../action-menu/icon--paint.svg';
 import surpriseIcon from '../action-menu/icon--surprise.svg';
+import searchIcon from '../action-menu/icon--search.svg';
 
 const messages = defineMessages({
     addBackdropFromLibrary: {
@@ -82,9 +83,9 @@ const StageSelector = props => {
             {url ? (
                 <CostumeCanvas
                     className={styles.costumeCanvas}
-                    height={54}
+                    height={48}
                     url={url}
-                    width={72}
+                    width={64}
                 />
             ) : null}
             <div className={styles.label}>
@@ -115,6 +116,10 @@ const StageSelector = props => {
                         title: intl.formatMessage(messages.addBackdropFromPaint),
                         img: paintIcon,
                         onClick: onEmptyBackdropClick
+                    }, {
+                        title: intl.formatMessage(messages.addBackdropFromLibrary),
+                        img: searchIcon,
+                        onClick: onNewBackdropClick
                     }
                 ]}
                 title={intl.formatMessage(messages.addBackdropFromLibrary)}

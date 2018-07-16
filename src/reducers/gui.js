@@ -60,6 +60,7 @@ const initFullScreen = function (currentState) {
         }}
     );
 };
+
 const guiReducer = combineReducers({
     assetDrag: assetDragReducer,
     blockDrag: blockDragReducer,
