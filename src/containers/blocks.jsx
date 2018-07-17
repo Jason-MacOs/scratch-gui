@@ -312,23 +312,24 @@ class Blocks extends React.Component {
         // select JSON from each block info object then reject the pseudo-blocks which don't have JSON, like separators
         // this actually defines blocks and MUST run regardless of the UI state
         this.ScratchBlocks.defineBlocksWithJsonArray(blocksInfo.map(blockInfo => blockInfo.json).filter(x => x));
+        const isArduino = blocksInfo.some(
+            (blockInfo, index) => {
+                return blockInfo.json.type && blockInfo.json.type.includes('arduino_start');
+            });
+        if(isArduino) {
+            // load project #1
+            location.hash = '#1';
+        }
         // update the toolbox view: this can be skipped if we're not looking at a target, etc.
         const runtime = this.props.vm.runtime;
         const target = runtime.getEditingTarget() || runtime.getTargetForStage();
         if (target) {
             const dynamicBlocksXML = runtime.getBlocksXML();
-            const isArduino = dynamicBlocksXML.includes('arduino');
             // update default project to arduino default project when arduino extension added
             const toolboxXML = isArduino ? 
                     makeArduinoToolboxXML(target.isStage, target.id, dynamicBlocksXML) :
                     makeToolboxXML(target.isStage, target.id, dynamicBlocksXML);
             this.props.updateToolboxState(toolboxXML);
-
-            if (isArduino) {
-                location.hash = '#1';
-                // try to clear variables
-                this.workspace.clear();
-            }
         }
     }
     handleCategorySelected (categoryId) {
