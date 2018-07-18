@@ -28,9 +28,8 @@ import WebGlModal from '../../containers/webgl-modal.jsx';
 import TipsLibrary from '../../containers/tips-library.jsx';
 import Cards from '../../containers/cards.jsx';
 import DragLayer from '../../containers/drag-layer.jsx';
-// import Popup from '../../containers/popup.jsx';
-import Popup from '../../components/popup/popup.jsx';
-import SerialPopup from '../../components/popup/serial-popup.jsx';
+import ArduinoCode from '../../containers/arduino-code.jsx';
+import Serial from '../../containers/serial.jsx';
 
 import layout, {STAGE_SIZE_MODES} from '../../lib/layout-constants';
 import {resolveStageSize} from '../../lib/screen-utils';
@@ -82,10 +81,8 @@ const GUIComponent = props => {
         stageSizeMode,
         tipsLibraryVisible,
         vm,
-        popupVisible,
-        popupCode,
+        arduinoCodeVisible,
         serialVisible,
-        serialOutput,
         ...componentProps
     } = omit(props, 'dispatch');
     if (children) {
@@ -150,11 +147,11 @@ const GUIComponent = props => {
                         onRequestClose={onRequestCloseBackdropLibrary}
                     />
                 ) : null}
-                {popupVisible ? (
-                    <Popup />
+                {arduinoCodeVisible ? (
+                    <ArduinoCode />
                 ) : null}
                 {serialVisible ? (
-                    <SerialPopup />
+                    <Serial />
                 ) : null }
                 <MenuBar
                     enableCommunity={enableCommunity}
@@ -321,10 +318,8 @@ GUIComponent.propTypes = {
     targetIsStage: PropTypes.bool,
     tipsLibraryVisible: PropTypes.bool,
     vm: PropTypes.instanceOf(VM).isRequired,
-    popupVisible: PropTypes.bool,
-    popupCode: PropTypes.string,
-    serialVisible: PropTypes.bool,
-    serialOutput: PropTypes.string
+    arduinoCodeVisible: PropTypes.bool,
+    serialVisible: PropTypes.bool
 };
 GUIComponent.defaultProps = {
     backpackOptions: {

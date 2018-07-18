@@ -1,8 +1,13 @@
 @import "../../css/units.css";
 @import "../../css/colors.css";
+@import "../../css/z-index.css";
+
+.container {
+    position: absolute;
+    z-index: $z-index-card;
+}
 
 .popup-container {
-    position:absolute;
     width: 600px;
     height: 340px;
     background: $ui-white;
@@ -14,6 +19,7 @@
     overflow: hidden;
     box-shadow: 0px 5px 25px 5px $ui-black-transparent;
     align-items: center;
+    /* position:absolute; */
     top: 0;
     left: 0;
     right: 0;
@@ -23,6 +29,7 @@
 
 .header-button {
     width: 100%;
+    height: 45px;
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
@@ -44,18 +51,26 @@
 
 .popup-body {
     background: $ui-white;
-    width: 520px;
-    height: 200px;
-    margin: 1.55rem auto;
+    width: 100%;
+    height: -webkit-fill-available;
+    padding: 0.1rem;
 }
 
 .textarea {
-    width: inherit;
-    height: inherit;
+    width: 100%;
+    height: 100%;
     background: #F9F9F9;
-    border: 1px solid #ddd;
-    border-radius: 0.5rem;
+    border: 1px solid $ui-black-transparent;
+    border-radius: 0 0 10px 10px;
+    padding: 5px;
+    color: #000;
+    font-size: 1rem;
+    font-family: Consolas, Courier;
     resize: none;
+}
+
+.textarea:focus {
+    outline: none !important;
 }
 
 .close-icon {

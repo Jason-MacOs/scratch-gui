@@ -2,10 +2,10 @@ import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import compileArduinoIcon from './icon--compile-arduino.svg';
-import styles from './compile-arduino.css';
+import arduinoCodeButtonIcon from './icon--arduino-code-button.svg';
+import styles from './arduino-code-button.css';
 
-const CompileArduino = props => {
+const ArduinoCodeButton = function (props) {
     const {
         active,
         className,
@@ -17,11 +17,13 @@ const CompileArduino = props => {
         <img
             className={classNames(
                 className,
-                styles.compileArduino,
-                { [ styles.isActive ]: active }
+                styles.arduinoCodeButton,
+                {
+                    [styles.isActive]: active 
+                }
             )}
             draggable={false}
-            src={compileArduinoIcon}
+            src={arduinoCodeButtonIcon}
             title={title}
             onClick={onClick}
             {...componentProps}
@@ -29,15 +31,16 @@ const CompileArduino = props => {
     );
 };
 
-CompileArduino.propTypes = {
+ArduinoCodeButton.propTypes = {
     active: PropTypes.bool.isRequired,
     className: PropTypes.string,
     onClick: PropTypes.func.isRequired,
     title: PropTypes.string
 };
 
-CompileArduino.defaultProps = {
-    title: 'Compile'
+ArduinoCodeButton.defaultProps = {
+    active: false,
+    title: 'Arduino Code'
 };
 
-export default CompileArduino;
+export default ArduinoCodeButton;

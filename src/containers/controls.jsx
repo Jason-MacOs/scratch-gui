@@ -6,7 +6,8 @@ import {connect} from 'react-redux';
 
 import analytics from '../lib/analytics';
 import ControlsComponent from '../components/controls/controls.jsx';
-import {openPopup, openSerial} from '../reducers/popup';
+import {openArduinoCode} from '../reducers/arduino-code.js';
+import {openSerial} from '../reducers/serial.js';
 import runCode from '../lib/command-utils';
 
 import axios from 'axios';
@@ -21,10 +22,10 @@ class Controls extends React.Component {
         bindAll(this, [
             'handleGreenFlagClick',
             'handleStopAllClick',
-            'handleUploadCodeClick',
-            'handleSerialPortClick',
+            'handleArduinoCodeButtonClick',
+            'handleSerialButtonClick',
             'handleCompileCodeClick',
-            'handleRunCodeClick',
+            'handleRunArduinoClick',
             'onProjectRunStart',
             'onProjectRunStop',
             'onWorkspaceUpdate',
@@ -39,10 +40,7 @@ class Controls extends React.Component {
             turbo: false,
             isArduino: false,
             connected: false,
-            codeCompiling: false,
-            codeUploading: false,
-            codeRunning: false,
-            compiled: false
+            codeCompiling: false
         };
     }
     componentDidMount () {
@@ -148,15 +146,27 @@ class Controls extends React.Component {
             action: 'Stop Button'
         });
     }
-    handleUploadCodeClick () {
+    handleArduinoCodeButtonClick (e) {
+        e.preventDefault();
+        if(this.state.codeCompiling) {
+            return;
+        }
         this.props.onOpenPopup();
     }
-    handleSerialPortClick() {
+    handleSerialButtonClick(e) {
+        e.preventDefault();
+        if(!this.state.connected || this.state.codeCompiling || this.props.serialOpened) {
+            return;
+        }
         this.props.onOpenSerial();
     }
     // Added by Maggie Lu
     // compile user input code
-    handleCompileCodeClick() {
+    handleCompileCodeClick(e) {
+        e.preventDefault();
+        if(this.state.codeCompiling) {
+            return;
+        }
         if (!this.props.code) {
             Swal({
                 toast: true,
@@ -171,7 +181,7 @@ class Controls extends React.Component {
         } else {
             let data = new FormData();
             data.append("b", "uno");
-            data.append("s", this.props.code);
+            data.append("s", btoa(unescape(encodeURIComponent(this.props.code))));
 
             Swal({
                 toast: true,
@@ -179,6 +189,7 @@ class Controls extends React.Component {
                 title: '提示',
                 text: '正在编译...'
             });
+            this.setState({ codeCompiling: true });
             Swal.showLoading();
 
             return axios({
@@ -221,15 +232,17 @@ class Controls extends React.Component {
                 });
             }).finally(() => {
                 Swal.hideLoading();
+                this.setState({ codeCompiling: false });
             });
         }
         return null;
     }
-    handleRunCodeClick() {
-        if(!this.state.connected) {
+    handleRunArduinoClick(e) {
+        e.preventDefault();
+        if(!this.state.connected || this.state.codeCompiling) {
             return;
         }
-        let p = this.handleCompileCodeClick();
+        let p = this.handleCompileCodeClick(e);
         if(p) {
             p.then(() => { runCode.uploadSketchFromUrl(this.state.downloadUrl); });
         }
@@ -246,15 +259,13 @@ class Controls extends React.Component {
                 {...props}
                 active={this.state.projectRunning}
                 compiling={this.state.codeCompiling}
-                uploading={this.state.codeUploading}
-                running={this.state.codeRunning}
                 turbo={this.state.turbo}
                 onGreenFlagClick={this.handleGreenFlagClick}
                 onStopAllClick={this.handleStopAllClick}
-                onUploadCodeClick={this.handleUploadCodeClick}
-                onSerialPortClick={this.handleSerialPortClick}
+                onArduinoCodeButtonClick={this.handleArduinoCodeButtonClick}
+                onSerialButtonClick={this.handleSerialButtonClick}
                 onCompileCodeClick={this.handleCompileCodeClick}
-                onRunCodeClick={this.handleRunCodeClick}
+                onRunArduinoClick={this.handleRunArduinoClick}
                 vm={vm}
                 isArduino={this.state.isArduino}
                 connected={this.state.connected}
@@ -267,16 +278,17 @@ Controls.propTypes = {
     vm: PropTypes.instanceOf(VM),
     onOpenPopup: PropTypes.func.isRequired,
     onOpenSerial: PropTypes.func.isRequired,
-    code: PropTypes.string
+    code: PropTypes.string.isRequired
 };
 
 const mapStateToProps = state => ({
-    code: state.scratchGui.popup.code
+    code: state.scratchGui.arduinoCode.code,
+    serialOpened: state.scratchGui.serial.visible
 })
 
 const mapDispatchToProps = dispatch => ({
-    onOpenPopup: () => dispatch(openPopup()),
-    onOpenSerial: () => dispatch(openSerial())
+    onOpenPopup: () => dispatch(openArduinoCode()),
+    onOpenSerial: () => dispatch(openSerial()),
 });
 
 // export default Controls;

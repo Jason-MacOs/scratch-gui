@@ -16,7 +16,8 @@ import targetReducer, {targetsInitialState} from './targets';
 import toolboxReducer, {toolboxInitialState} from './toolbox';
 import vmReducer, {vmInitialState} from './vm';
 import throttle from 'redux-throttle';
-import popupReducer, {popupInitialState, serialReducer, serialInitialState} from './popup';
+import arduinoCodeReducer, {arduinoCodeInitialState} from './arduino-code';
+import serialReducer, {serialInitialState} from './serial';
 const guiMiddleware = compose(applyMiddleware(throttle(300, {leading: true, trailing: true})));
 
 const guiInitialState = {
@@ -36,7 +37,7 @@ const guiInitialState = {
     targets: targetsInitialState,
     toolbox: toolboxInitialState,
     vm: vmInitialState,
-    popup: popupInitialState,
+    arduinoCode: arduinoCodeInitialState,
     serial: serialInitialState
 };
 
@@ -78,7 +79,7 @@ const guiReducer = combineReducers({
     targets: targetReducer,
     toolbox: toolboxReducer,
     vm: vmReducer,
-    popup: popupReducer,
+    arduinoCode: arduinoCodeReducer,
     serial: serialReducer
 });
 

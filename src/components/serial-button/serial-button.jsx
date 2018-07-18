@@ -2,42 +2,41 @@ import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import compileArduinoIcon from './icon--compile-arduino.svg';
-import styles from './compile-arduino.css';
+import icon from './icon--serial-button.svg';
+import styles from './serial-button.css';
 
-const CompileArduino = props => {
+const SerialButton = function(props) {
     const {
         active,
+        opened,
         className,
         title,
-        onClick,
         ...componentProps
     } = props;
     return (
         <img
             className={classNames(
                 className,
-                styles.compileArduino,
+                styles.serialButton,
                 { [ styles.isActive ]: active }
             )}
             draggable={false}
-            src={compileArduinoIcon}
+            src={icon}
             title={title}
-            onClick={onClick}
             {...componentProps}
         />
     );
 };
 
-CompileArduino.propTypes = {
+SerialButton.propTypes = {
     active: PropTypes.bool.isRequired,
+    opened: PropTypes.bool.isRequired,
     className: PropTypes.string,
-    onClick: PropTypes.func.isRequired,
     title: PropTypes.string
 };
 
-CompileArduino.defaultProps = {
-    title: 'Compile'
+SerialButton.defaultProps = {
+    title: 'Serial'
 };
 
-export default CompileArduino;
+export default SerialButton;
