@@ -11,6 +11,7 @@ const SerialButton = function(props) {
         opened,
         className,
         title,
+        onClick,
         ...componentProps
     } = props;
     return (
@@ -23,6 +24,7 @@ const SerialButton = function(props) {
             draggable={false}
             src={icon}
             title={title}
+            onClick={onClick}
             {...componentProps}
         />
     );
@@ -32,7 +34,8 @@ SerialButton.propTypes = {
     active: PropTypes.bool.isRequired,
     opened: PropTypes.bool.isRequired,
     className: PropTypes.string,
-    title: PropTypes.string
+    title: PropTypes.string,
+    onClick: PropTypes.func.isRequired
 };
 
 SerialButton.defaultProps = {

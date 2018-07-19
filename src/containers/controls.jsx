@@ -239,7 +239,7 @@ class Controls extends React.Component {
     }
     handleRunArduinoClick(e) {
         e.preventDefault();
-        if(!this.state.connected || this.state.codeCompiling) {
+        if(!this.state.connected || this.state.codeCompiling || this.props.serialOpened) {
             return;
         }
         let p = this.handleCompileCodeClick(e);
@@ -250,8 +250,10 @@ class Controls extends React.Component {
     render () {
         const {
             vm, // eslint-disable-line no-unused-vars,
-            onOpenPopup,
-            onOpenSerial,
+            onOpenPopup, // eslint-disable-line no-unused-vars,
+            onOpenSerial, // eslint-disable-line no-unused-vars,
+            code, // eslint-disable-line no-unused-vars,
+            serialOpened,
             ...props
         } = this.props;
         return (
@@ -259,6 +261,7 @@ class Controls extends React.Component {
                 {...props}
                 active={this.state.projectRunning}
                 compiling={this.state.codeCompiling}
+                serialOpened={serialOpened}
                 turbo={this.state.turbo}
                 onGreenFlagClick={this.handleGreenFlagClick}
                 onStopAllClick={this.handleStopAllClick}
@@ -278,7 +281,8 @@ Controls.propTypes = {
     vm: PropTypes.instanceOf(VM),
     onOpenPopup: PropTypes.func.isRequired,
     onOpenSerial: PropTypes.func.isRequired,
-    code: PropTypes.string.isRequired
+    code: PropTypes.string.isRequired,
+    serialOpened: PropTypes.bool.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -288,7 +292,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
     onOpenPopup: () => dispatch(openArduinoCode()),
-    onOpenSerial: () => dispatch(openSerial()),
+    onOpenSerial: () => dispatch(openSerial())
 });
 
 // export default Controls;

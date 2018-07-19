@@ -27,6 +27,7 @@ class ArduinoCode extends React.Component {
 
     handleSave(e) {
         e.preventDefault();
+        console.debug('Save code: ' + this.state.inputValue);
         this.props.onSave(this.state.inputValue);
         Swal({
             toast: true,
@@ -38,17 +39,21 @@ class ArduinoCode extends React.Component {
         });
     }
 
-    handleTextChange(e) {
-        this.setState({inputValue: e.target.value});
+    handleTextChange(newValue) {
+        this.setState({inputValue: newValue});
     }
 
     render() {
         const {
-            code,
-            ...componentProps
+            code, // eslint-disable-line no-unused-vars,
+            onSave, // eslint-disable-line no-unused-vars,
+            onCancel, // eslint-disable-line no-unused-vars,
+            ...props
         } = this.props;
+
         return (
             <ArduinoCodeComponent
+                {...props}
                 code={this.state.inputValue}
                 onCancel={this.handleCancel}
                 onSave={this.handleSave}
@@ -69,7 +74,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-    onSave: (b64Code) => dispatch(saveArduinoCode(b64Code)),
+    onSave: (code) => dispatch(saveArduinoCode(code)),
     onCancel: () => dispatch(closeArduinoCode())
 });
 

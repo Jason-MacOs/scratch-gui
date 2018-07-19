@@ -79,7 +79,7 @@ const Controls = function (props) {
                 key='compile-arduino'
             />,
             <RunArduino
-                active={!compiling && connected}
+                active={!compiling && connected && !serialOpened}
                 connected={connected}
                 title={intl.formatMessage(messages.runTitle)}
                 onClick={onRunArduinoClick}

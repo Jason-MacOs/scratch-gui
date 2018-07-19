@@ -21,23 +21,31 @@ class Serial extends React.Component {
 
     render() {
         const {
+            output,
+            x,
+            y,
+            onClose,
+            onDrag,
+            onStartDrag,
+            onStopDrag,
             ...props
         } = this.props;
 
         return (
             <Draggable
+                {...props}
                 bounds="parent"
-                position={{x: props.x, y: props.y}}
-                onDrag={props.onDrag}
-                onStart={props.onStartDrag}
-                onStop={props.onStopDrag}
+                position={{x, y}}
+                onDrag={onDrag}
+                onStart={onStartDrag}
+                onStop={onStopDrag}
             >
                 <div className={styles.container}>
                     <div className={styles.popupContainer}>
                         <div className={styles.headerButton}>
                             <div
                                 className={styles.removeButton}
-                                onClick={props.onClose}
+                                onClick={onClose}
                             >
                                 <FormattedMessage
                                     defaultMessage="Close"
@@ -55,7 +63,7 @@ class Serial extends React.Component {
                                 ref="outputText"
                                 readOnly
                                 className={styles.textarea}
-                                value={props.output}
+                                value={output}
                             ></textarea>
                         </div>
                     </div>

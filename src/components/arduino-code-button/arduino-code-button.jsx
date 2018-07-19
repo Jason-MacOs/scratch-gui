@@ -39,7 +39,6 @@ ArduinoCodeButton.propTypes = {
 };
 
 ArduinoCodeButton.defaultProps = {
-    active: false,
     title: 'Arduino Code'
 };
 

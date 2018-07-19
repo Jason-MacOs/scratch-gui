@@ -35,10 +35,25 @@ class Serial extends React.Component {
 
 
     render() {
+        const {
+            x,
+            y,
+            onClose,
+            onDrag,
+            onStartDrag,
+            onStopDrag,
+            ...props
+        } = this.props;
         return (
             <SerialComponent
+                {...props}
                 output={this.state.output}
-                {...this.props}
+                x={x}
+                y={y}
+                onDrag={onDrag}
+                onStartDrag={onStartDrag}
+                onStopDrag={onStopDrag}
+                onClose={onClose}
             />
         );
     }

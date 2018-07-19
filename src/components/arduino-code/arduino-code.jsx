@@ -3,8 +3,13 @@ import React from 'react';
 import Modal from '../modal/modal.jsx';
 import Box from '../box/box.jsx';
 import {FormattedMessage} from 'react-intl';
+import brace from 'brace';
+import AceEditor from 'react-ace';
 
 import styles from './arduino-code.css';
+
+import 'brace/mode/c_cpp';
+import 'brace/theme/github';
 
 class ArduinoCode extends React.Component {
     constructor(props) {
@@ -13,23 +18,37 @@ class ArduinoCode extends React.Component {
     }
 
     render() {
+        const {
+            code,
+            onTextChange,
+            onCancel,
+            onSave,
+            ...props
+        } = this.props;
+
         return (
         <Modal
             className={styles.modalContent}
             contentLabel="Arduino代码"
-            onRequestClose={this.props.onCancel}
+            onRequestClose={onCancel}
         >
             <Box className={styles.body}>
-                <textarea 
-                    className={styles.textarea}
-                    value={this.props.code}
-                    onChange={this.props.onTextChange}
-                >
-                </textarea>
+                <AceEditor
+                    mode="c_cpp"
+                    theme="github"
+                    width="100%"
+                    height="90%"
+                    fontSize="1rem"
+                    value={code}
+                    onChange={onTextChange}
+                    name="ace_editor"
+                    editorProps={{$blockScrolling: true}}
+                />
+
                 <Box className={styles.buttonRow}>
                     <button
                         className={styles.cancelButton}
-                        onClick={this.props.onCancel}
+                        onClick={onCancel}
                     >
                         <FormattedMessage
                             defaultMessage="Cancel"
@@ -39,7 +58,7 @@ class ArduinoCode extends React.Component {
                     </button>
                     <button
                         className={styles.saveButton}
-                        onClick={this.props.onSave}
+                        onClick={onSave}
                     >
                         <FormattedMessage
                             defaultMessage="Save"
@@ -55,6 +74,7 @@ class ArduinoCode extends React.Component {
 }
 
 ArduinoCode.propTypes = {
+    code: PropTypes.string.isRequired,
     onCancel: PropTypes.func.isRequired,
     onSave: PropTypes.func.isRequired,
     onTextChange: PropTypes.func.isRequired
