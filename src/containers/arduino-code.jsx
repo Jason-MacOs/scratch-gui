@@ -27,7 +27,6 @@ class ArduinoCode extends React.Component {
 
     handleSave(e) {
         e.preventDefault();
-        console.debug('Save code: ' + this.state.inputValue);
         this.props.onSave(this.state.inputValue);
         Swal({
             toast: true,

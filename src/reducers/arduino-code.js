@@ -23,7 +23,7 @@ const reducer = function(state, action) {
 
 const openArduinoCode = () => { return { type: OPEN_ARDUINO_CODE }; };
 const closeArduinoCode = () => { return { type: CLOSE_ARDUINO_CODE }; };
-const saveArduinoCode = (code) => { console.debug('Arduino Code: ' + code); return { type: SAVE_ARDUINO_CODE, code }; };
+const saveArduinoCode = (code) => { return { type: SAVE_ARDUINO_CODE, code }; };
 
 export {
     reducer as default,
