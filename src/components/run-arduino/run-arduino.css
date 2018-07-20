@@ -1,5 +1,3 @@
-@import "../../css/colors.css";
-
 .run-arduino{
     width: 2rem;
     height: 2rem;
@@ -8,7 +6,11 @@
     user-select: none;
     cursor: pointer;
     transition: 0.2s ease-out;
-    opacity: 1;
+}
+
+.run-arduino{
+    opacity: 0.5;
+    filter: grayscale(100%);
 }
 
 .run-arduino:hover {
@@ -17,10 +19,5 @@
 
 .run-arduino.is-active {
     opacity: 1;
-    background-color: $motion-transparent;
-}
-
-.run-arduino.disabled{
-    opacity: 0.5;
-    filter: grayscale(100%);
+    filter: none;
 }

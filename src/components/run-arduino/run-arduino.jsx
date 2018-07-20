@@ -5,13 +5,13 @@ import React from 'react';
 import runArduinoIcon from './icon--run-arduino.svg';
 import styles from './run-arduino.css';
 
-const RunArduinoComponent = function (props) {
+const RunArduino = props => {
     const {
         active,
-        running,
         connected,
         className,
         title,
+        onClick,
         ...componentProps
     } = props;
     return (
@@ -19,27 +19,27 @@ const RunArduinoComponent = function (props) {
             className={classNames(
                 className,
                 styles.runArduino,
-                { [styles.disabled]: !connected }
+                { [styles.isActive]: active }
             )}
             draggable={false}
             src={runArduinoIcon}
             title={title}
+            onClick={onClick}
             {...componentProps}
         />
     );
 };
-RunArduinoComponent.propTypes = {
-    active: PropTypes.bool,
-    running: PropTypes.bool,
+
+RunArduino.propTypes = {
+    active: PropTypes.bool.isRequired,
     className: PropTypes.string,
-    connected: PropTypes.bool,
-    // onClick: PropTypes.func.isRequired,
+    connected: PropTypes.bool.isRequired,
+    onClick: PropTypes.func.isRequired,
     title: PropTypes.string
 };
-RunArduinoComponent.defaultProps = {
-    active: false,
-    running: false,
+
+RunArduino.defaultProps = {
     title: 'Run',
-    connected: false
 };
-export default RunArduinoComponent;
+
+export default RunArduino;

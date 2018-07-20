@@ -9,8 +9,8 @@ import StopAll from '../stop-all/stop-all.jsx';
 import TurboMode from '../turbo-mode/turbo-mode.jsx';
 import CompileArduino from '../compile-arduino/compile-arduino.jsx';
 import RunArduino from '../run-arduino/run-arduino.jsx';
-import UploadCode from '../upload-code/upload-code.jsx';
-import SerialPort from '../upload-code/serial-port.jsx';
+import ArduinoCodeButton from '../arduino-code-button/arduino-code-button.jsx';
+import SerialButton from '../serial-button/serial-button.jsx';
 import styles from './controls.css';
 
 const messages = defineMessages({
@@ -34,10 +34,10 @@ const messages = defineMessages({
         defaultMessage: 'Run',
         description: 'Run button title'
     },
-    uploadCodeTitle: {
-        id: 'gui.controls.uploadCode',
-        defaultMessage: 'Upload Code',
-        description: 'Upload code button title'
+    arduinoCodeButtonTitle: {
+        id: 'gui.controls.arduinoCodeButton',
+        defaultMessage: 'Arduino Code',
+        description: 'Show Arduino code button'
     },
     serialPortTitle: {
         id: 'gui.controls.serialPort',
@@ -49,21 +49,20 @@ const messages = defineMessages({
 const Controls = function (props) {
     const {
         active,
-        uploading,
         compiling,
-        running,
         className,
         intl,
         onGreenFlagClick,
         onStopAllClick,
-        onUploadCodeClick,
-        onSerialPortClick,
+        onArduinoCodeButtonClick,
+        onSerialButtonClick,
         onCompileCodeClick,
-        onRunCodeClick,
+        onRunArduinoClick,
         turbo,
         vm,
         isArduino,
         connected,
+        serialOpened,
         ...componentProps
     } = props;
     
@@ -74,28 +73,30 @@ const Controls = function (props) {
         >
             {isArduino ? [
             <CompileArduino
-                compiling={compiling}
+                active={!compiling}
                 title={intl.formatMessage(messages.compileTitle)}
                 onClick={onCompileCodeClick}
-                key='compile'
+                key='compile-arduino'
             />,
             <RunArduino
-                running={running}
+                active={!compiling && connected && !serialOpened}
                 connected={connected}
                 title={intl.formatMessage(messages.runTitle)}
-                onClick={onRunCodeClick}
-                key='run'
+                onClick={onRunArduinoClick}
+                key='run-arduino'
             />,
-            <UploadCode
-                uploading={uploading}
-                title={intl.formatMessage(messages.uploadCodeTitle)}
-                onClick={onUploadCodeClick}
-                key='upload'
+            <ArduinoCodeButton
+                active={!compiling}
+                title={intl.formatMessage(messages.arduinoCodeButtonTitle)}
+                onClick={onArduinoCodeButtonClick}
+                key='arduino-code-button'
             />,
-            <SerialPort
+            <SerialButton
+                active={connected && !compiling && !serialOpened}
+                opened={serialOpened}
                 title={intl.formatMessage(messages.serialPortTitle)}
-                onClick={onSerialPortClick}
-                key='serial'
+                onClick={onSerialButtonClick}
+                key='serial-button'
             />
             ] : [
             <GreenFlag
@@ -121,31 +122,26 @@ const Controls = function (props) {
 
 Controls.propTypes = {
     active: PropTypes.bool,
-    uploading: PropTypes.bool,
-    compiling: PropTypes.bool,
-    running: PropTypes.bool,
+    compiling: PropTypes.bool.isRequired,
     className: PropTypes.string,
     intl: intlShape.isRequired,
     onGreenFlagClick: PropTypes.func.isRequired,
     onStopAllClick: PropTypes.func.isRequired,
     onCompileCodeClick: PropTypes.func.isRequired,
-    onUploadCodeClick: PropTypes.func.isRequired,
-    onSerialPortClick: PropTypes.func.isRequired,
-    onRunCodeClick: PropTypes.func.isRequired,
+    onArduinoCodeButtonClick: PropTypes.func.isRequired,
+    onSerialButtonClick: PropTypes.func.isRequired,
+    onRunArduinoClick: PropTypes.func.isRequired,
     turbo: PropTypes.bool,
     vm: PropTypes.instanceOf(VM).isRequired,
     isArduino: PropTypes.bool,
-    connected: PropTypes.bool
+    connected: PropTypes.bool.isRequired,
+    serialOpened: PropTypes.bool.isRequired
 };
 
 Controls.defaultProps = {
     active: false,
-    uploading: false,
-    compiling: false,
-    running: false,
     turbo: false,
     isArduino: false,
-    connected: false
 };
 
 export default injectIntl(Controls);

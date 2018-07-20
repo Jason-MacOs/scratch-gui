@@ -71,11 +71,14 @@ export default function (vm) {
     };
 
     const backdropsMenu = function () {
+        const next = ScratchBlocks.ScratchMsgs.translate('LOOKS_NEXTBACKDROP', 'next backdrop');
+        const previous = ScratchBlocks.ScratchMsgs.translate('LOOKS_PREVIOUSBACKDROP', 'previous backdrop');
+        const random = ScratchBlocks.ScratchMsgs.translate('LOOKS_RANDOMBACKDROP', 'random backdrop');
         if (vm.runtime.targets[0] && vm.runtime.targets[0].getCostumes().length > 0) {
             return vm.runtime.targets[0].getCostumes().map(costume => [costume.name, costume.name])
-                .concat([[NEXT_BACKDROP, 'next backdrop'],
-                    [PREV_BACKDROP, 'previous backdrop'],
-                    [RAND_BACKDROP, 'random backdrop']]);
+                .concat([[next, 'next backdrop'],
+                    [previous, 'previous backdrop'],
+                    [random, 'random backdrop']]);
         }
         return [['', '']];
     };
@@ -112,7 +115,8 @@ export default function (vm) {
             }
             return menu;
         }
-        return [[MYSELF, '_myself_']].concat(spriteMenu());
+        const myself = ScratchBlocks.ScratchMsgs.translate('CONTROL_CREATECLONEOF_MYSELF', 'myself');
+        return [[myself, '_myself_']].concat(spriteMenu());
     };
 
     const soundColors = ScratchBlocks.Colours.sounds;
@@ -150,46 +154,55 @@ export default function (vm) {
     };
 
     ScratchBlocks.Blocks.motion_pointtowards_menu.init = function () {
+        const mouse = ScratchBlocks.ScratchMsgs.translate('MOTION_POINTTOWARDS_POINTER', 'mouse-pointer');
         const json = jsonForMenuBlock('TOWARDS', spriteMenu, motionColors, [
-            [MOUSE_POINTER, '_mouse_']
+            [mouse, '_mouse_']
         ]);
         this.jsonInit(json);
     };
 
     ScratchBlocks.Blocks.motion_goto_menu.init = function () {
+        const random = ScratchBlocks.ScratchMsgs.translate('MOTION_GOTO_RANDOM', 'random position');
+        const mouse = ScratchBlocks.ScratchMsgs.translate('MOTION_GOTO_POINTER', 'mouse-pointer');
         const json = jsonForMenuBlock('TO', spriteMenu, motionColors, [
-            [RAND_POSITION, '_random_'],
-            [MOUSE_POINTER, '_mouse_']
+            [random, '_random_'],
+            [mouse, '_mouse_']
         ]);
         this.jsonInit(json);
     };
 
     ScratchBlocks.Blocks.motion_glideto_menu.init = function () {
+        const random = ScratchBlocks.ScratchMsgs.translate('MOTION_GLIDETO_RANDOM', 'random position');
+        const mouse = ScratchBlocks.ScratchMsgs.translate('MOTION_GLIDETO_POINTER', 'mouse-pointer');
         const json = jsonForMenuBlock('TO', spriteMenu, motionColors, [
-            [RAND_POSITION, '_random_'],
-            [MOUSE_POINTER, '_mouse_']
+            [random, '_random_'],
+            [mouse, '_mouse_']
         ]);
         this.jsonInit(json);
     };
 
     ScratchBlocks.Blocks.sensing_of_object_menu.init = function () {
+        const stage = ScratchBlocks.ScratchMsgs.translate('SENSING_OF_STAGE', 'Stage');
         const json = jsonForMenuBlock('OBJECT', spriteMenu, sensingColors, [
-            [STAGE, '_stage_']
+            [stage, '_stage_']
         ]);
         this.jsonInit(json);
     };
 
     ScratchBlocks.Blocks.sensing_distancetomenu.init = function () {
+        const mouse = ScratchBlocks.ScratchMsgs.translate('SENSING_DISTANCETO_POINTER', 'mouse-pointer');
         const json = jsonForMenuBlock('DISTANCETOMENU', spriteMenu, sensingColors, [
-            [MOUSE_POINTER, '_mouse_']
+            [mouse, '_mouse_']
         ]);
         this.jsonInit(json);
     };
 
     ScratchBlocks.Blocks.sensing_touchingobjectmenu.init = function () {
+        const mouse = ScratchBlocks.ScratchMsgs.translate('SENSING_TOUCHINGOBJECT_POINTER', 'mouse-pointer');
+        const edge = ScratchBlocks.ScratchMsgs.translate('SENSING_TOUCHINGOBJECT_EDGE', 'edge');
         const json = jsonForMenuBlock('TOUCHINGOBJECTMENU', spriteMenu, sensingColors, [
-            [MOUSE_POINTER, '_mouse_'],
-            [EDGE, '_edge_']
+            [mouse, '_mouse_'],
+            [edge, '_edge_']
         ]);
         this.jsonInit(json);
     };
@@ -202,6 +215,13 @@ export default function (vm) {
     ScratchBlocks.VerticalFlyout.getCheckboxState = function (blockId) {
         const monitoredBlock = vm.runtime.monitorBlocks._blocks[blockId];
         return monitoredBlock ? monitoredBlock.isMonitored : false;
+    };
+
+    ScratchBlocks.FlyoutExtensionCategoryHeader.getExtensionState = function (extensionId) {
+        if (vm.getPeripheralIsConnected(extensionId)) {
+            return ScratchBlocks.StatusButtonState.READY;
+        }
+        return ScratchBlocks.StatusButtonState.NOT_READY;
     };
 
     return ScratchBlocks;

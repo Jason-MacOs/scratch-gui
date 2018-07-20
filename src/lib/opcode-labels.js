@@ -1,40 +1,62 @@
+import ScratchBlocks from 'scratch-blocks';
+
 const opcodeMap = {
     // Motion
     motion_direction: {
         category: 'motion',
-        label: '方向'
+        labelFn: () => ScratchBlocks.ScratchMsgs.translate('MOTION_DIRECTION', 'direction')
     },
     motion_xposition: {
         category: 'motion',
-        label: 'x坐标'
+        labelFn: () => ScratchBlocks.ScratchMsgs.translate('MOTION_XPOSITION', 'x postion')
     },
     motion_yposition: {
         category: 'motion',
-        label: 'y坐标'
+        labelFn: () => ScratchBlocks.ScratchMsgs.translate('MOTION_YPOSITION', 'y postion')
     },
 
     // Looks
     looks_size: {
         category: 'looks',
-        label: '大小'
+        labelFn: () => ScratchBlocks.ScratchMsgs.translate('LOOKS_SIZE', 'size')
     },
     looks_costumenumbername: {
         category: 'looks',
-        //labelFn: params => `造型 ${params.NUMBER_NAME}`
-        labelFn: (params) => {
-            return '造型编号';
+        labelFn: params => {
+            let label = ScratchBlocks.ScratchMsgs.translate(
+                'LOOKS_COSTUMENUMBERNAME',
+                'costume %1'
+            );
+            if (params.NUMBER_NAME === 'number') {
+                label = label.replace(/%1/, ScratchBlocks.ScratchMsgs.translate(
+                    'LOOKS_NUMBERNAME_NUMBER', 'number'));
+            } else {
+                label = label.replace(/%1/, ScratchBlocks.ScratchMsgs.translate(
+                    'LOOKS_NUMBERNAME_NAME', 'name'));
+            }
+            return label;
         }
     },
     looks_backdropnumbername: {
         category: 'looks',
-        //labelFn: params => `背景 ${params.NUMBER_NAME}`
-        labelFn: (params) => {
-            return '背景编号';
+        labelFn: params => {
+            let label = ScratchBlocks.ScratchMsgs.translate(
+                'LOOKS_BACKDROPNUMBERNAME',
+                'costume %1'
+            );
+            if (params.NUMBER_NAME === 'number') {
+                label = label.replace(/%1/, ScratchBlocks.ScratchMsgs.translate(
+                    'LOOKS_NUMBERNAME_NUMBER', 'number'));
+            } else {
+                label = label.replace(/%1/, ScratchBlocks.ScratchMsgs.translate(
+                    'LOOKS_NUMBERNAME_NAME', 'name'));
+            }
+            return label;
         }
     },
     looks_backdropname: {
         category: 'looks',
-        label: '背景名称'
+        labelFn: () => ScratchBlocks.ScratchMsgs.translate('LOOKS_BACKDROPNAME', 'backdrop name')
     },
 
     // Data
@@ -50,54 +72,43 @@ const opcodeMap = {
     // Sound
     sound_volume: {
         category: 'sound',
-        label: '音量'
+        labelFn: () => ScratchBlocks.ScratchMsgs.translate('SOUND_VOLUME', 'volume')
     },
     sound_tempo: {
         category: 'sound',
-        label: '节奏'
+        labelFn: () => ScratchBlocks.ScratchMsgs.translate('SOUND_TEMPO', 'tempo')
     },
 
     // Sensing
     sensing_answer: {
         category: 'sensing',
-        label: '回答'
+        labelFn: () => ScratchBlocks.ScratchMsgs.translate('SENSING_ANSWER', 'answer')
     },
     sensing_loudness: {
         category: 'sensing',
-        label: '响度'
+        labelFn: () => ScratchBlocks.ScratchMsgs.translate('SENSING_LOUDNESS', 'loudness')
     },
     sensing_username: {
         category: 'sensing',
-        label: '用户名'
-    },
-    sensing_username: {
-        category: 'sensing',
-        label: 'username'
+        labelFn: () => ScratchBlocks.ScratchMsgs.translate('SENSING_USERNAME', 'username')
     },
     sensing_current: {
         category: 'sensing',
         labelFn: params => {
-            let currentMenu = params.CURRENTMENU.toLowerCase();
-            return {
-                year: '年',
-                month: '月',
-                date: '日',
-                dayofweek: '星期',
-                hour: '时',
-                minute: '分',
-                second: '秒'
-            }[currentMenu];
-            /*
+            let currentMenu = params.CURRENTMENU.toUpperCase();
+            currentMenu = ScratchBlocks.ScratchMsgs.translate(
+                `SENSING_CURRENT_${currentMenu}`,
+                currentMenu.toLowerCase()
+            );
             if (currentMenu === 'dayofweek') {
                 currentMenu = 'day of week';
             }
             return currentMenu;
-            */
         }
     },
     sensing_timer: {
         category: 'sensing',
-        label: '计时器'
+        labelFn: () => ScratchBlocks.ScratchMsgs.translate('SENSING_TIMER', 'timer')
     }
 };
 

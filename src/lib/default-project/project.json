@@ -49,17 +49,8 @@
       "currentCostume": 0,
       "costumes": [
         {
-          "assetId": "37adf420abef899a024dc8e9def14ada",
-          "name": "WZ-run1",
-          "bitmapResolution": 1,
-          "md5ext": "37adf420abef899a024dc8e9def14ada.svg",
-          "dataFormat": "svg",
-          "rotationCenterX": 132,
-          "rotationCenterY": 177
-        },
-        {
           "assetId": "59d2003830d4eb592cf5d9a37561fde9",
-          "name": "WZ-run2",
+          "name": "玩仔1",
           "bitmapResolution": 1,
           "md5ext": "59d2003830d4eb592cf5d9a37561fde9.svg",
           "dataFormat": "svg",
@@ -68,7 +59,7 @@
         },
         {
           "assetId": "52656dad6a045a77b57d38ea85bf3c2c",
-          "name": "WZ-run3",
+          "name": "玩仔2",
           "bitmapResolution": 1,
           "md5ext": "52656dad6a045a77b57d38ea85bf3c2c.svg",
           "dataFormat": "svg",
@@ -77,12 +68,21 @@
         },
         {
           "assetId": "0ca03cb3489e383f1a97b76c9cc2b95c",
-          "name": "WZ-run4",
+          "name": "玩仔3",
           "bitmapResolution": 1,
           "md5ext": "0ca03cb3489e383f1a97b76c9cc2b95c.svg",
           "dataFormat": "svg",
           "rotationCenterX": 140,
           "rotationCenterY": 170
+        },
+        {
+          "assetId": "37adf420abef899a024dc8e9def14ada",
+          "name": "玩仔4",
+          "bitmapResolution": 1,
+          "md5ext": "37adf420abef899a024dc8e9def14ada.svg",
+          "dataFormat": "svg",
+          "rotationCenterX": 132,
+          "rotationCenterY": 177
         }
       ],
       "sounds": [

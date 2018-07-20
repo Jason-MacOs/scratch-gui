@@ -5,10 +5,9 @@ import React from 'react';
 import compileArduinoIcon from './icon--compile-arduino.svg';
 import styles from './compile-arduino.css';
 
-const CompileArduinoComponent = function (props) {
+const CompileArduino = props => {
     const {
         active,
-        compiling,
         className,
         title,
         onClick,
@@ -19,9 +18,7 @@ const CompileArduinoComponent = function (props) {
             className={classNames(
                 className,
                 styles.compileArduino,
-                {
-                    [styles.isActive]: compiling
-                }
+                { [ styles.isActive ]: active }
             )}
             draggable={false}
             src={compileArduinoIcon}
@@ -32,18 +29,15 @@ const CompileArduinoComponent = function (props) {
     );
 };
 
-CompileArduinoComponent.propTypes = {
-    active: PropTypes.bool,
-    compiling: PropTypes.bool,
+CompileArduino.propTypes = {
+    active: PropTypes.bool.isRequired,
     className: PropTypes.string,
     onClick: PropTypes.func.isRequired,
     title: PropTypes.string
 };
 
-CompileArduinoComponent.defaultProps = {
-    active: false,
-    compiling: false,
+CompileArduino.defaultProps = {
     title: 'Compile'
 };
 
-export default CompileArduinoComponent
+export default CompileArduino;

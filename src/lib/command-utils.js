@@ -117,11 +117,11 @@ let runCode = (function() {
 
             if(_line.indexOf('\r\n') != -1) {
                 _serialData.push(_line);
+                /*
                 if(_serialData.length >= 11) {
                     _serialData.shift();
                 }
-                //let cont = _serialData.join('');
-                //window.serialData = cont;
+                */
                 _line = '';
             }
         } else if(evt.indexOf('"Flash"') != -1) {
@@ -178,7 +178,6 @@ let runCode = (function() {
                     showConfirmButton: false,
                     timer: 3000
                 });
-                //_serialData.push('串口连接失败\r\n');
             }
         } else if(evt.indexOf('"Close"') != -1) {
             let data = JSON.parse(evt);
