@@ -6,7 +6,7 @@ import {connect} from 'react-redux';
 
 import analytics from '../lib/analytics';
 import ControlsComponent from '../components/controls/controls.jsx';
-import {openArduinoCode} from '../reducers/arduino-code.js';
+import {openArduinoCode, saveArduinoCode} from '../reducers/arduino-code.js';
 import {openSerial} from '../reducers/serial.js';
 import runCode from '../lib/command-utils';
 
@@ -151,6 +151,16 @@ class Controls extends React.Component {
         if(this.state.codeCompiling) {
             return;
         }
+
+        if(process.env.NODE_ENV != 'production') {
+            let runtime = this.props.vm.runtime;
+            let arduino = runtime.getExtensionDevice('arduino');
+            if(arduino) {
+                let code = arduino.converter.getArduinoCode();
+                this.props.onSaveCode(code);
+            }
+        }
+
         this.props.onOpenPopup();
     }
     handleSerialButtonClick(e) {
@@ -167,7 +177,15 @@ class Controls extends React.Component {
         if(this.state.codeCompiling) {
             return;
         }
-        if (!this.props.code) {
+
+        let code = this.props.code;
+        if(process.env.NODE_ENV != 'production') {
+            let runtime = this.props.vm.runtime;
+            let arduino = runtime.getExtensionDevice('arduino');
+            code = arduino == null ? '' : arduino.coverter.getArduinoCode();
+        }
+
+        if (code) {
             Swal({
                 toast: true,
                 position: 'top',
@@ -181,7 +199,7 @@ class Controls extends React.Component {
         } else {
             let data = new FormData();
             data.append("b", "uno");
-            data.append("s", btoa(unescape(encodeURIComponent(this.props.code))));
+            data.append("s", btoa(unescape(encodeURIComponent(code))));
 
             Swal({
                 toast: true,
@@ -251,6 +269,7 @@ class Controls extends React.Component {
         const {
             vm, // eslint-disable-line no-unused-vars,
             onOpenPopup, // eslint-disable-line no-unused-vars,
+            onSaveCode, // eslint-disable-line no-unused-vars,
             onOpenSerial, // eslint-disable-line no-unused-vars,
             code, // eslint-disable-line no-unused-vars,
             serialOpened,
@@ -280,6 +299,7 @@ class Controls extends React.Component {
 Controls.propTypes = {
     vm: PropTypes.instanceOf(VM),
     onOpenPopup: PropTypes.func.isRequired,
+    onSaveCode: PropTypes.func.isRequired,
     onOpenSerial: PropTypes.func.isRequired,
     code: PropTypes.string.isRequired,
     serialOpened: PropTypes.bool.isRequired
@@ -292,6 +312,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
     onOpenPopup: () => dispatch(openArduinoCode()),
+    onSaveCode: (code) => dispatch(saveArduinoCode(code)),
     onOpenSerial: () => dispatch(openSerial())
 });
 

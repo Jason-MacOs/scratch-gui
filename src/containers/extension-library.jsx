@@ -40,14 +40,17 @@ class ExtensionLibrary extends React.PureComponent {
         if (id && !item.disabled) {
             if (this.props.vm.extensionManager.isExtensionLoaded(url)) {
                 this.props.onCategorySelected(id);
+            } else if(['arduino', 'lcd', 'matrix'].indexOf(id) != -1) {
+                this.props.vm.extensionManager.loadExtensionURL('arduino').then(() => {
+                    this.props.vm.extensionManager.loadExtensionURL('lcd').then(() => {
+                        this.props.vm.extensionManager.loadExtensionURL('matrix').then(() => {
+                            this.props.onCategorySelected('arduino');
+                        });
+                    });
+                });
             } else {
                 this.props.vm.extensionManager.loadExtensionURL(url).then(() => {
                     this.props.onCategorySelected(id);
-                    if(id == 'arduino') {
-                        this.props.vm.extensionManager.loadExtensionURL('lcd').then(() => {
-                            this.props.vm.extensionManager.loadExtensionURL('matrix');
-                        });
-                    }
                 });
             }
         }
